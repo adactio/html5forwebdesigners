@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" manifest="/manifest.appcache">
+<head>
+<meta charset="utf-8">
+<title>HTML5 For Web Designers, Chapter 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" media="all" href="../css/global.css">
+</head>
+<body>
+
+<a href="../index.html"><b>Home</b></a>
+
+<h1 id="the_design_of_html5">The Design Of HTML5</h1>
+
+<p>The French revolution was an era of extreme political and social change. Revolutionary fervor was applied to time itself. For a brief period, the French Republic introduced a decimal time system, with each day divided into ten hours and each hour divided into one hundred minutes. It was thoroughly logical and clearly superior to the sexagesimal system.</p>
+
+<p>Decimal time was a failure. Nobody used it. The same could be said for XHTML 2. The W3C rediscovered the lesson of post-revolutionary France: changing existing behavior is very, very difficult.</p>
+
+<h2 id="design_principles">Design Principles</h2>
+
+<p>Keen to avoid the mistakes of the past, the WHATWG drafted a series of design principles to guide the development of HTML5. One of the key principles is to “Support existing content.” That means there’s no Year Zero for HTML5.</p>
+
+<p>Where XHTML 2 attempted to sweep aside all that had come before, HTML5 builds upon existing specifications and implementations. Most of HTML 4.01 has survived in HTML5.</p>
+
+<p>Some of the other design principles include “Do not reinvent the wheel,” and “Pave the cowpaths,” meaning, if there’s a widespread way for web designers to accomplish a task—even if it’s not necessarily the best way—it should be codified in HTML5. Put another way, “If it ain’t broke, don’t fix it.”</p>
+
+<p>Many of these design principles will be familiar to you if you’ve ever dabbled in the microformats community (<a href="http://microformats.org">http://microformats.org</a>). The HTML5 community shares the same pragmatic approach to getting a format out there, without worrying too much about theoretical problems.</p>
+
+<p>This attitude is enshrined in the design principle of “Priority of constituencies,” which states, “In case of conflict, consider users over authors over implementers over specifiers over theoretical purity.”</p>
+
+<p>Ian Hickson has stated on many occasions that browser makers are the real arbiters of what winds up in HTML5. If a browser vendor refuses to support a particular proposal, there’s no point in adding that proposal to the specification because then the specification would be fiction. According to the priority of constituencies, we web designers have an even stronger voice. If we refuse to use part of the specification, then the specification is equally fictitious.</p>
+
+<h2 id="keeping_it_real">Keeping It Real</h2>
+
+<p>The creation of HTML5 has been driven by an ongoing internal tension. On the one hand, the specification needs to be powerful enough to support the creation of web applications. On the other hand, HTML5 needs to support existing content, even if most existing content is a complete mess. If the specification strays too far in one direction, it will suffer the same fate as XHTML 2. But if it goes too far in the other direction, the specification will enshrine <code>&lt;font&gt;</code> tags and tables for layout because, after all, that’s what a huge number of web pages are built with.</p>
+
+<p>It’s a delicate balancing act that requires a pragmatic, levelheaded approach.</p>
+
+<h2 id="error_handling">Error Handling</h2>
+
+<p>The HTML5 specification doesn’t just declare what browsers should do when they are processing well-formed markup. For the first time, a specification also defines what browsers should do when they are dealing with badly formed documents.</p>
+
+<p>Until now, browser makers have had to individually figure out how to deal with errors. This usually involved reverse engineering whatever the most popular browser was doing— not a very productive use of their time. It would be better for browser makers to implement new features rather than waste their time duplicating the way their competitors handle malformed markup.</p>
+
+<p>Defining error handling in HTML5 is incredibly ambitious. Even if HTML5 had exactly the same elements and attributes as HTML 4.01, with no new features added, defining error handling by 2012 would still be a Sisyphean task.</p>
+
+<p>Error handling might not be of much interest to web designers, especially if we are writing valid, well-formed documents to begin with, but it’s very important for browser makers. Whereas previous markup specifications were written for authors, HTML5 is written for authors and implementers. Bear that in mind when perusing the specification. It explains why the HTML5 specification is so big and why it seems to have been written with a level of detail normally reserved for trainspotters who enjoy a nice game of chess while indexing their stamp collection.</p>
+
+<h2 id="give_it_to_me_straight_doctype">Give It To Me Straight, DOCTYPE</h2>
+
+<p>A Document Type Declaration, or doctype for short, has traditionally been used to specify which particular flavor of markup a document is written in.</p>
+
+<p>The doctype for HTML 4.01 looks like this:</p>
+
+<pre><code>&lt;!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;</code></pre>
+
+<p>Here’s the doctype for XHTML 1.0:</p>
+
+<pre><code>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</code></pre>
+
+<p>They’re not very human-readable, but, in their own way, they are simply saying “this document is written in HTML 4.01,” or “this document is written in XHTML 1.0.”</p>
+
+<p>You might expect the doctype declaring “this document is written in HTML5” would have the number five in it somewhere. It doesn’t. The doctype for HTML5 looks like this:</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;</code></pre>
+
+<p>It’s so short that even I can memorize it.</p>
+
+<p>But surely this is madness! Without a version number in the doctype, how will we specify future versions of HTML?</p>
+
+<p>When I first saw the doctype for HTML5, I thought it was the height of arrogance. I asked myself, “Do they really believe that this will be the final markup specification ever written?”</p>
+
+<p>It seemed to be a textbook case of Year Zero thinking.</p>
+
+<p>In fact, though, the doctype for HTML5 is very pragmatic. Because HTML5 needs to support existing content, the doctype could be applied to an existing HTML 4.01 or XHTML 1.0 document. Any future versions of HTML will also need to support the existing content in HTML5, so the very concept of applying version numbers to markup documents is flawed.</p>
+
+<p>The truth is that doctypes aren’t even important. Let’s say you serve up a document with a doctype for HTML 4.01. If that document includes an element from another specification, such as HTML 3.2 or HTML5, a browser will still render that part of the document. Browsers support features, not doctypes.</p>
+
+<p>Document Type Declarations were intended for validators, not browsers. The only time that a browser pays any attention to a doctype is when it is performing “doctype switching”— a clever little hack that switches rendering between quirks mode and standards mode depending on the presence of a decent doctype.</p>
+
+<p>The minimum information required to ensure that a browser renders using standards mode is the HTML5 doctype. In fact, that’s the only reason to include the doctype at all. An HTML document written without the HTML5 doctype can still be valid HTML5.</p>
+
+<h2 id="keeping_it_simple">Keeping It Simple</h2>
+
+<p>The doctype isn’t the only thing that has been simplified in HTML5.</p>
+
+<p>If you want to specify the character encoding of a markup document, the best way is to ensure that your server sends the correct Content-Type header. If you want to be doubly certain, you can also specify the character set using a <code>&lt;meta&gt;</code> tag. Here’s the meta declaration for a document written in HTML 4.01:</p>
+
+<pre><code>&lt;meta http-equiv="Content-Type" content="text/html;charset=UTF-8"&gt;</code></pre>
+
+<p>Here’s the much more memorable way of doing the same thing in HTML5:</p>
+
+<pre><code>&lt;meta charset="UTF-8"&gt;</code></pre>
+
+<p>As with the doctype, this simplified character encoding contains the minimum number of characters needed to be interpreted by browsers.</p>
+
+<p>The <code>&lt;script&gt;</code> tag is another place that can afford to shed some fat. It’s common practice to add a type attribute with a value of “text/javascript” to script elements:</p>
+
+<pre><code>&lt;script type="text/javascript" src="file.js"&gt;&lt;/script&gt;</code></pre>
+
+<p>Browsers don’t need that attribute. They will assume that the script is written in JavaScript, the most popular scripting language on the web (let’s be honest: the only scripting language on the web):</p>
+
+<pre><code>&lt;script src="file.js"&gt;&lt;/script&gt;</code></pre>
+
+<p>Likewise, you don’t need to specify a type value of “text/css” every time you link to a CSS file:</p>
+
+<pre><code>&lt;link rel="stylesheet" type="text/css" href="file.css"&gt;</code></pre>
+
+<p>You can simply write:</p>
+
+<pre><code>&lt;link rel="stylesheet" href="file.css"&gt;</code></pre>
+
+<h2 id="syntax_marking_it_up_your_way">Syntax: Marking It Up Your Way</h2>
+
+<p>Some programming languages, such as Python, enforce a particular way of writing instructions. Using spaces to indent code is mandatory—the white space is significant. Other programming languages, such as JavaScript, don’t pay any attention to formatting—the white space at the start of a line isn’t significant.</p>
+
+<p>If you’re looking for a cheap evening’s entertainment, get an array of programmers into the same room and utter the words “significant white space.” You can then spend hours warming yourself by the ensuing flame war.</p>
+
+<p>There’s a fundamental philosophical question at the heart of the significant white space debate: should a language enforce a particular style of writing, or should authors be free to write in whatever style they like?</p>
+
+<p>Markup doesn’t require significant white space. If you want to add a new line and an indentation every time you nest an element, you can do so, but browsers and validators don’t require it. This doesn’t mean that markup is a free-for-all. Some flavors of markup enforce a stricter writing style than others.</p>
+
+<p>Before XHTML 1.0, it didn’t matter if you wrote tags in uppercase or lowercase. It didn’t matter whether or not you quoted attributes. For some elements, it didn’t even matter whether you included the closing tag.</p>
+
+<p>XHTML 1.0 enforces the syntax of XML. All tags must be written in lowercase. All attributes must be quoted. All elements must have a closing tag. In the special case of standalone elements such as br, the requirement for a closing tag is replaced with a requirement for a closing slash: <code>&lt;br /&gt;</code>.</p>
+
+<p>With HTML5, anything goes. Uppercase, lowercase, quoted, unquoted, self-closing or not; it’s entirely up to you.</p>
+
+<p>I’ve been using the XHTML 1.0 doctype for years. I like the fact that I must write in one particular style and I like the way that the W3C validator enforces that style. Now that I’m using HTML5, it’s up to me to enforce the style I want.</p>
+
+<p>I can see why some people don’t like the looseness of the HTML5 syntax. It seems like it’s turning the clock back on years of best practices. Some people have even said that the lax syntax of HTML5 is encouraging bad markup. I don’t think that’s true, but I can see why it’s a concern. It’s as if a programming language that enforced significant white space suddenly changed over to a more forgiving rule set.</p>
+
+<p>Personally, I’m okay with the casual syntax of HTML5. I’ve come to terms with having to enforce my own preferred writing style myself. But I would like to see more tools that would allow me to test my markup against a particular style. In the world of programming, these are called lint tools: programs that flag up suspect coding practices. A lint tool for markup would be different than a validator, which checks against a doctype; but it would be wonderful if the two could be combined into one lean, mean validating linting machine.</p>
+
+<p>Whosoever shall program such a device will earn the undying respect and admiration of web designers everywhere.</p>
+
+<h2 id="we_dont_use_that_kind_of_language">We Don’t Use That Kind Of Language</h2>
+
+<p>In past versions of HTML, whenever a previously existing element or attribute was removed from the specification, the process was called deprecation. Web designers were advised not to use deprecated elements, or send them Christmas cards, or even mention them in polite company.</p>
+
+<p>There are no deprecated elements or attributes in HTML5. But there are plenty of obsolete elements and attributes.</p>
+
+<p>No, this isn’t a case of political correctness gone mad. “Obsolete” has a subtly different meaning from “deprecated.”</p>
+
+<p>Because HTML5 aims to be backwards compatible with existing content, the specification must acknowledge previously existing elements even when those elements are no longer in HTML5. This leads to a slightly confusing situation where the specification simultaneously says, “authors, don’t use this element” and, “browsers, here’s how you should render this element.” If the element were deprecated, it wouldn’t be mentioned in the specification at all; but because the element is obsolete, it is included for the benefit of browsers.</p>
+
+<p>Unless you’re building a browser, you can treat obsolete elements and attributes the same way you would treat deprecated elements and attributes: don’t use them in your web pages and don’t invite them to cocktail parties.</p>
+
+<p>If you insist on using an obsolete element or attribute, your document will be “non-conforming.” Browsers will render everything just fine, but you might hear a tut-ing sound from the website next door.</p>
+
+<h3 id="so_long_been_good_to_know_ya">So long, been good to know ya</h3>
+
+<p>The <code>frame</code>, <code>frameset</code>, and <code>noframes</code> elements are obsolete. They won’t be missed.</p>
+
+<p>The <code>acronym</code> element is obsolete, thereby freeing up years of debating time that can be better spent calculating the angel-density capacity of standard-sized pinheads. Do not mourn the <code>acronym</code> element; just use the <code>abbr</code> element instead. Yes, I know there’s a difference between acronyms and abbreviations—acronyms are spoken as single words, like <abbr title="North Atlantic Treaty Organization">NATO</abbr> and <abbr title="Self-Contained Underwater Breathing Apparatus">SCUBA</abbr>—but just remember: all acronyms are abbreviations, but not all abbreviations are acronyms.</p>
+
+<p>Presentational elements such as <code>font</code>, <code>big</code>, <code>center</code>, and <code>strike</code> are obsolete in HTML5. In reality, they’ve been obsolete for years; it’s much easier to achieve the same presentational effects using CSS properties such as <code>font-size</code> and <code>textalign</code>. Similarly, presentational attributes such as <code>bgcolor</code>, <code>cellspacing</code>, <code>cellpadding</code>, and <code>valign</code> are obsolete. Just use CSS instead.</p>
+
+<p>Not all presentational elements are obsolete. Some of them have been through a re-education program and given one more chance.</p>
+
+<h2 id="turn_face_the_strange_ch_ch_changes">Turn &amp; Face The Strange (Ch-Ch-Changes)</h2>
+
+<p>The <code>big</code> element is obsolete but the <code>small</code> element isn’t. This apparent inconsistency has been resolved by redefining what <code>small</code> means. It no longer has the presentational connotation, “render this at a small size.” Instead, it has the semantic value, “this is the small print,” for legalese, or terms and conditions.</p>
+
+<p>Of course, nine times out of ten you will want to render the small print at a small size, but the point is that the purely presentational meaning of the element has been superseded.</p>
+
+<p>The <code>b</code> element used to mean, “render this in bold.” Now it is used for some text “to be stylistically offset from the normal prose without conveying any extra importance.” If the text has any extra importance, then the <code>strong</code> element would be more appropriate.</p>
+
+<p>Similarly, the <code>i</code> element no longer means “italicize.” It means the text is “in an alternate voice or mood.” Again, the element doesn’t imply any importance or emphasis. For emphasis, use the <code>em</code> element.</p>
+
+<p>These changes might sound like word games. They are; but they also help to increase the device-independence of HTML5. If you think about the words “bold” and “italic,” they only make sense for a visual medium such as a screen or a page. By removing the visual bias from the definitions of these elements, the specification remains relevant for non-visual user agents such as screen readers. It also encourages designers to think beyond visual rendering environments.</p>
+
+<h3 id="out_of_cite">Out of cite</h3>
+
+<p>The <code>cite</code> element has been redefined in HTML5. Where it previously meant “a reference to other sources,” it now means “the title of a work.” Quite often, a cited reference will be the title of a work, such as a book or a film, but the source could just as easily be a person. Before HTML5, you could mark up that person’s name using <code>cite</code>. Now that’s expressly forbidden—so much for backwards compatibility.</p>
+
+<p>The justification for this piece of revisionism goes something like this: browsers italicize the text between <code>&lt;cite&gt;</code> tags; titles of works are usually italicized; people’s names aren’t usually italicized; therefore the <code>cite</code> element shouldn’t be used for marking up people’s names.</p>
+
+<p>That’s just plain wrong. I’m in favor of HTML5 taking its lead from browsers, but this is a case of the tail wagging the dog.</p>
+
+<p>Fortunately, no validator can possibly tell whether the text between opening and closing <code>&lt;cite&gt;</code> tags refers to a person or not, so there’s nothing to stop us web designers from using the cite element in a sensible, backwards compatible way.</p>
+
+<h3 id="the_a_element_on_steroids">The <code>a</code> element on steroids</h3>
+
+<p>While the changes to previously existing elements involve creative wordplay, there’s one element that’s getting a supercharged makeover in HTML5.</p>
+
+<p>The <code>a</code> element is, without a doubt, the most important element in HTML. It turns our text into hypertext. It is the connective tissue of the World Wide Web.</p>
+
+<p>The <code>a</code> element has always been an inline element. If you wanted to make a headline and a paragraph into a hyperlink, you would have to use multiple a elements:</p>
+
+<pre><code>&lt;h2&gt;&lt;a href="../about"&gt;About me&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;a href="../about"&gt;Find out what makes me tick.&lt;/a&gt;&lt;/p&gt;</code></pre>
+
+<p>In HTML5, you can wrap multiple elements in a single a element:</p>
+
+<pre><code>&lt;a href="../about"&gt;
+ &lt;h2&gt;About me&lt;/h2&gt;
+ &lt;p&gt;Find out what makes me tick.&lt;/p&gt;
+&lt;/a&gt;</code></pre>
+
+<p>The only caveat is that you can’t nest an <code>a</code> element within another <code>a</code> element.</p>
+
+<p>Wrapping multiple elements in a single <code>a</code> element might seem like a drastic change, but most browsers won’t have to do much to support this new linking model. They already support it even though this kind of markup has never been technically legal until now.</p>
+
+<p>This seems slightly counter-intuitive: Surely the browsers should be implementing an existing specification? Instead, the newest specification is documenting what browsers are already doing.</p>
+
+<h2 id="shiny_new_toys_javascript_apis">Shiny New Toys: JavaScript APIs</h2>
+
+<p>If you’re looking for documentation on CSS, you go to the CSS specifications. If you’re looking for documentation on markup, you go to the HTML specifications. But where do you go for documentation on JavaScript APIs such as <code>document.write</code>, <code>innerHTML</code>, and <code>window.history</code>? The JavaScript specification is all about the programming language—you won’t find any browser APIs there.</p>
+
+<p>Until now, browsers have been independently creating and implementing JavaScript APIs, looking over one another’s shoulders to see what the others are doing. HTML5 will document these APIs once and for all, which should ensure better compatibility.</p>
+
+<p>It might sound strange to have JavaScript documentation in a markup specification, but remember that HTML5 started life as Web Apps 1.0. JavaScript is an indispensable part of making web applications.</p>
+
+<p>Entire sections of the HTML5 specification are dedicated to new APIs for creating web applications. There’s an <code>UndoManager</code> that allows the browser to keep track of changes to a document. There’s a section on creating Offline Web Applications using a cache manifest. Drag and drop is described in detail.</p>
+
+<p>As always, if there is an existing implementation, the specification will build upon it rather than reinvent the wheel. Microsoft’s Internet Explorer has had a drag and drop API for years, so that’s the basis for drag and drop in HTML5. Unfortunately, the Microsoft API is—to put it mildly—problematic. Maybe reinventing the wheel isn’t such a bad idea if all you have to work with is a square wheel.</p>
+
+<p>The APIs in HTML5 are very powerful. They are also completely over my head. I’ll leave it to developers smarter than me to write about them. The APIs deserve their own separate book.</p>
+
+<p>Meanwhile, there’s still plenty of new stuff in HTML5 for us web designers to get excited about. This excitement commences in the very next chapter.</p>
+
+<a rel="next" href="../media/index.html">Rich Media</a>
+
+<nav role="navigation">
+<h1 id="table_of_contents">Table Of Contents</h1>
+<ol role="navigation">
+<li><a rel="chapter" href="../history/index.html">A Brief History of Markup</a></li>
+<li><a>The Design of HTML5</a></li>
+<li><a rel="chapter" href="../media/index.html">Rich Media</a></li>
+<li><a rel="chapter" href="../forms/index.html">Web Forms 2.0</a></li>
+<li><a rel="chapter" href="../semantics/index.html">Semantics</a></li>
+<li><a rel="chapter" href="../today/index.html">Using HTML5 Today</a></li>
+<li><a href="../index/index.html">Index</a></li>
+</ol>
+</nav>
+
+<aside>
+<h1>Buy the book</h1>
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="paperback">Paperback</label></h2>
+<input type="hidden" name="id" value="47764342">
+<button id="paperback" type="submit">Buy it</button>
+<label for="paperback">$18.00 + shipping</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="ebook">Ebook</label></h2>
+<input type="hidden" name="id" value="49719022">
+<button id="ebook" type="submit">Buy it</button>
+<label for="ebook">$9.00</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="bundle">Paperback &amp; ebook bundle</label></h2>
+<input type="hidden" name="id" value="49719092">
+<button id="bundle" type="submit">Buy it</button>
+<label for="bundle">$23.00 + shipping</label>
+</form>
+</aside>
+
+<footer role="contentinfo">
+<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="http://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
+</footer>
+
+</body>
+</html>

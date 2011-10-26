@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" manifest="/manifest.appcache">
+<head>
+<meta charset="utf-8">
+<title>HTML5 For Web Designers, Chapter 6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" media="all" href="../css/global.css">
+</head>
+<body>
+
+<a href="../index.html"><b>Home</b></a>
+
+<h1 id="using_html5_today">Using HTML5 Today</h1>
+
+<p>If you want To start using HTML5’s new structural elements today, there’s nothing stopping you. Most browsers will allow you to style the new elements. It’s not that browsers actively support these elements, it’s just that most browsers allow you to use and style any element you care to invent.</p>
+
+<h2 id="styling">Styling</h2>
+
+<p>Browsers won’t apply any default styling to the new elements. So, at the very least, you will want to declare that the new structural elements should force a line break:</p>
+
+<pre><code>section, article, header, footer, nav, aside, hgroup {
+ display: block;
+} </code></pre>
+
+<p>That’s enough for most browsers. Internet Explorer has special needs. It resolutely refuses to recognize the new elements unless an exemplar of each element is first created with JavaScript, like this:</p>
+
+<pre><code>document.createElement('section'); </code></pre>
+
+<p>JavaScript genius Remy Sharp has written a handy little script that generates all of the new HTML5 elements. Load this script within a conditional comment so that it’s only served up to the needy Internet Explorer:</p>
+
+<pre><code>&lt;!--[if IE]&gt;
+ &lt;script src=
+ "http://html5shiv.googlecode.com/svn/trunk/html5.js"&gt;
+ &lt;/script&gt;
+&lt;![endif]--&gt; </code></pre>
+
+<p>Now you can style the new elements to your heart’s content.</p>
+
+<h3 id="headings">Headings</h3>
+
+<p>Browsers haven’t yet begun to support HTML5’s new outline algorithm but you can still start using the extra heading levels available to you.</p>
+
+<p>Geoffrey Sneddon has written a handy online tool that will generate an outline as specified in HTML5 (<a href="http://gsnedders.html5.org/outliner">http://gsnedders.html5.org/outliner</a>).</p>
+
+<p>If you follow the advice in the HTML5 specification and start afresh from <code>h1</code> within each piece of sectioning content, your CSS rules could get very complicated very quickly:</p>
+
+<pre><code>h1 {
+ font-size: 2.4em;
+}
+h2,
+section h1, article h1, aside h1 {
+ font-size: 1.8em;
+}
+h3,
+section h2, article h2, aside h2,
+section section h1, section article h1, section aside h1,
+article section h1, article article h1, article aside h1,
+aside section h1, aside article h1, aside aside h1 {
+ font-size: 1.6em;
+} </code></pre>
+
+<p>That’s just the first three levels and it doesn’t even cover all the possible combinations of headings within sectioning content.</p>
+
+<p>Fortunately, the HTML5 outline algorithm is pretty flexible. If you want to use heading levels the old-fashioned way, that won’t affect the outline in any way.</p>
+
+<h2 id="aria">ARIA</h2>
+
+<p>The new structural elements in HTML5 will be very useful to assistive technology. Instead of creating “skip navigation” links, all we need to do is use the <code>nav</code> element correctly. This will allow screen reader users to skip past navigation without us having to provide an explicit link.</p>
+
+<p>That’s the plan, anyway. For now, we must make do with the technologies that browsers and screen readers support today.</p>
+
+<p>Luckily for us, there is currently excellent support for ARIA (Accessible Rich Internet Applications).</p>
+
+<p>At its most advanced, ARIA allows assistive technology to participate fully in all-singing, all-dancing Ajax interactions. At its simplest, ARIA allows us to specify even more semantic richness in our documents.</p>
+
+<p>The most basic ARIA unit is the <code>role</code> attribute. You can add <code>role="search"</code> to your search form, <code>role="banner"</code> to your masthead, and <code>role="contentinfo"</code> to your page footer. There’s a full list of values in the ARIA specification at <a href="http://www.w3.org/TR/wai-aria/roles#role_definitions">http://www.w3.org/TR/wai-aria/roles#role_definitions</a>.</p>
+
+<p>You can also use these role values in HTML 4.01, XHTML 1.0, or any other flavor of markup, but then your document will no longer validate—unless you create a custom doctype, which is a world of pain.</p>
+
+<p>But ARIA roles are part of the HTML5 specification so you can have your ARIA cake and validate it.</p>
+
+<p>You can also use the added semantics of the role attribute as styling hooks. The attribute selector is your friend. Selectors like these allow you to distinguish the headers and footers of a document from the headers and footers within sectioning content:</p>
+
+<pre><code>header[role="banner"] { }
+footer[role="contentinfo"] { } </code></pre>
+
+<h2 id="validation">Validation</h2>
+
+<p>Used wisely, a validator is a very powerful tool for a web designer. Used unwisely, a validator provides smug nerds with an easy way of pointing and laughing at other people’s markup.</p>
+
+<p>Henri Sivonen has created a full-featured HTML5 validator at <a href="http://validator.nu/">http://validator.nu/</a>.</p>
+
+<p>You don’t even need to update your bookmarks pointing to the W3C validator (<a href="http://validator.w3.org/">http://validator.w3.org/</a>). That too uses Henri’s parser as soon as it detects the HTML5 doctype.</p>
+
+<h2 id="feature_detection">Feature Detection</h2>
+
+<p>If you want to start using some of the more advanced input types in HTML5, you’ll need a way of testing for browser support so that you can provide JavaScript alternatives.</p>
+
+<p>Modernizr is a useful JavaScript file that will detect support for input types as well as <code>audio</code>, <code>video</code>, and <code>canvas</code> (<a href="http://www.modernizr.com/">http://www.modernizr.com/</a>).</p>
+
+<p>The script creates an object in JavaScript called Modernizr. By querying the properties of this object, you can determine whether the browser supports a particular input type or not:</p>
+
+<pre><code>if (!Modernizr.inputtypes.color) {
+ // JavaScript fallback goes here.
+} </code></pre>
+
+<p>Modernizr will also perform the sleight of hand that allows you to style the new structural elements in Internet Explorer—so if you use Modernizr, you don’t need to use Remy’s script as well.</p>
+
+<h2 id="choose_your_strategy">Choose Your Strategy</h2>
+
+<p>It’s entirely up to you how ambitious or cautious you want to be with HTML5.</p>
+
+<p>At the very least, you can take your existing HTML or XHTML documents and update the doctype to:</p>
+
+<pre><code>&lt;!DOCTYPE html&gt; </code></pre>
+
+<p>You have just taken your first step into a larger world. Now you might as well start using ARIA roles as well; what have you got to lose?</p>
+
+<p>If you’re nervous about using the new structural elements, you can still get used to the new semantics by using class names as training wheels:</p>
+
+<pre><code>&lt;div <ins>class="section"</ins>&gt;
+ &lt;div <ins>class="header"</ins>&gt;
+  &lt;h1&gt;Hello world!&lt;/h1&gt;
+ &lt;/div&gt;&lt;!--/.header --&gt;
+&lt;/div&gt;&lt;!--/.section --&gt; </code></pre>
+
+<p>Further down the road, when you’re feeling more confident about using new HTML5 elements, you can replace those <code>div</code> elements and class names with the corresponding structural elements.</p>
+
+<p>While it might still be too early to use some of the more advanced input types such as <code>date</code>, <code>range</code>, and <code>color</code>, there’s no harm in using <code>search</code>, <code>url</code>, <code>email</code> and other simple input types. Remember, browsers that don’t recognize these values will simply treat the input as if it were <code>type="text"</code>.</p>
+
+<p>If you’re feeling adventurous, you can start playing around with <code>audio</code>, <code>video</code>, and <code>canvas</code>. They might not be ready for prime time, but they could be fun toys to experiment with on your personal site.</p>
+
+<h3 id="resources">Resources</h3>
+
+<p>I often write about HTML5 on my personal site:
+<a href="http://adactio.com/journal/tag/html5">http://adactio.com/journal/tag/html5</a></p>
+
+<p>I’m not the only who’s excited about HTML5. The mighty Bruce Lawson is also jotting down his thoughts:
+<a href="http://brucelawson.co.uk/category/html5/">http://brucelawson.co.uk/category/html5/</a></p>
+
+<p>Bruce is just one of the contributors to HTML5 Doctor, an excellent community resource packed with great articles:
+<a href="http://html5doctor.com/">http://html5doctor.com/</a></p>
+
+<p>If you fancy getting into the more complex side of HTML5, Remy Sharp is pushing the boundaries: 
+<a href="http://html5demos.com/">http://html5demos.com/</a></p>
+
+<p>Mark Pilgrim has written an exhaustive book called Dive Into HTML5. Buy it from O’Reilly or read it online:
+<a href="http://diveintohtml5.info/">http://diveintohtml5.info/</a></p>
+
+<p>For those occasions when you need to go straight to the source, keep the HTML5 specification on speed dial:
+<a href="http://whatwg.org/html5">http://whatwg.org/html5</a></p>
+
+<p>The HTML5 specification includes a lot of information intended for browser makers. The W3C hosts an up-to-date version of the specification specifically for authors:
+<a href="http://www.w3.org/TR/html-markup">http://www.w3.org/TR/html-markup</a></p>
+
+<h2 id="get_involved">Get Involved</h2>
+
+<p>As you embark on your adventure in HTML5, you may find parts of the specification confusing. That’s okay. It’s more than okay; it’s very valuable feedback.</p>
+
+<p>There are some very smart people working on HTML5, but web designers are under-represented. Your perspective would be greatly appreciated.</p>
+
+<p>You can join the HTML Working Group at the W3C as a public invited expert—ignoring the Kafkaesque language of an invitation you need to issue to yourself—but I wouldn’t recommend it. The associated mailing list has a very high volume of traffic, most of it related to politics and procedure.</p>
+
+<p>The WHATWG mailing list is the place to go if you actually want to discuss the HTML5 specification:
+<a href="http://www.whatwg.org/mailing-list#specs">http://www.whatwg.org/mailing-list#specs</a></p>
+
+<p>There’s also an IRC channel. Sometimes you want to go where everybody knows your handle: 
+<a href="irc://irc.freenode.org/whatwg">irc://irc.freenode.org/whatwg</a></p>
+
+<p>Don’t be shy. The IRC channel is a great place to ask questions and get answers from Ian Hickson, Anne van Kesteren, Lachlan Hunt, and other WHATWG members.</p>
+
+<h2 id="the_future">The Future</h2>
+
+<p>I hope that this little sashay ’round HTML5 has encouraged you to start exploring this very exciting technology. I also hope that you will bring the fruits of your exploration back to the WHATWG.</p>
+
+<p>HTML is the most important tool a web designer can wield. Without markup, the web wouldn’t exist. I find it remarkable and wonderful that anybody can contribute to the evolution of this most vital of technologies. Every time you create a website, you are contributing to the shared cultural heritage of the human race. In choosing HTML5, you are also contributing to the future.</p>
+
+<nav role="navigation">
+<h1 id="table_of_contents">Table Of Contents</h1>
+<ol role="navigation">
+<li><a rel="chapter" href="../history/index.html">A Brief History of Markup</a></li>
+<li><a rel="chapter" href="../design/index.html">The Design of HTML5</a></li>
+<li><a rel="chapter" href="../media/index.html">Rich Media</a></li>
+<li><a rel="chapter" href="../forms/index.html">Web Forms 2.0</a></li>
+<li><a rel="chapter" href="../semantics/index.html">Semantics</a></li>
+<li><a>Using HTML5 Today</a></li>
+<li><a href="../index/index.html">Index</a></li>
+</ol>
+</nav>
+
+<aside>
+<h1>Buy the book</h1>
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="paperback">Paperback</label></h2>
+<input type="hidden" name="id" value="47764342">
+<button id="paperback" type="submit">Buy it</button>
+<label for="paperback">$18.00 + shipping</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="ebook">Ebook</label></h2>
+<input type="hidden" name="id" value="49719022">
+<button id="ebook" type="submit">Buy it</button>
+<label for="ebook">$9.00</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="bundle">Paperback &amp; ebook bundle</label></h2>
+<input type="hidden" name="id" value="49719092">
+<button id="bundle" type="submit">Buy it</button>
+<label for="bundle">$23.00 + shipping</label>
+</form>
+</aside>
+
+<footer role="contentinfo">
+<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="http://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
+</footer>
+
+</body>
+</html>

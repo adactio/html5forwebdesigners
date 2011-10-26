@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" manifest="/manifest.appcache">
+<head>
+<meta charset="utf-8">
+<title>HTML5 For Web Designers, Chapter 3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" media="all" href="../css/global.css">
+</head>
+<body>
+
+<a href="../index.html"><b>Home</b></a>
+
+<h1 id="rich_media">Rich Media</h1>
+
+<p>The history of the web is punctuated with technological improvements. One of the earliest additions to HTML was the <code>img</code> element, which fundamentally altered the web. Then, the introduction of JavaScript allowed the web to become a more dynamic environment. Later, the proliferation of Ajax made the web a viable option for full-fledged applications.</p>
+
+<p>Web standards have advanced so much that it’s now possible to build almost anything using HTML, CSS, and JavaScript— almost anything.</p>
+
+<p>There are some gaps in the web standards palette. If you want to publish text and images, HTML and CSS are all you need. But if you want to publish audio or video, you’ll need to use a plug-in technology such as Flash or Silverlight.</p>
+
+<p>“Plug-in” is an accurate term for these technologies—they help to fill the holes on the web. They make it relatively easy to get games, films, and music online. But these technologies are not open. They are not created by the community. They are under the control of individual companies.</p>
+
+<p>Flash is a powerful technology, but using it sometimes feels like a devil’s bargain. We gain the ability to publish rich media on the web, but in doing so, we lose some of our independence.</p>
+
+<p>HTML5 is filling in the gaps. As such, it is in direct competition with proprietary technologies like Flash and Silverlight. But instead of requiring a plug-in, the rich media elements in HTML5 are native to the browser.</p>
+
+<h2 id="canvas">Canvas</h2>
+
+<p>When the Mosaic browser added the ability to embed images within web pages, it gave the web a turbo boost. But images have remained static ever since. You can create animated gifs. You can use JavaScript to update an image’s styles. You can generate an image dynamically on the server. But once an image has been served up to a browser, its contents cannot be updated.</p>
+
+<p>The <code>canvas</code> element is an environment for creating dynamic images.</p>
+
+<p>The element itself is very simple. All you specify within the opening tag are the dimensions:</p>
+
+<pre><code>&lt;canvas id="my-first-canvas" width="360" height="240"&gt;
+&lt;/canvas&gt;</code></pre>
+
+<p>If you put anything between the opening and closing tags, only browsers that don’t support canvas will see it (<a href="#fig-03-01">fig 3.01</a>):</p>
+
+<pre><code>&lt;canvas id="my-first-canvas" width="360" height="240"&gt;
+ &lt;p&gt;No canvas support? Have an old-fashioned image instead:&lt;/p&gt;
+ &lt;img src="puppy.jpg" alt="a cute puppy"&gt;
+&lt;/canvas&gt;</code></pre>
+
+<figure id="fig-03-01">
+<img src="../img/fig-03-01.png" alt="">
+<figcaption><b>fig 3.01:</b> Users without canvas support will see the image of a cute puppy.</figcaption>
+</figure>
+
+<p>All the hard work is done in JavaScript. First of all, you’ll need to reference the <code>canvas</code> element and its context. The word “context” here simply means an API. For now, the only context is two-dimensional:</p>
+
+<pre><code>var canvas = document.getElementById('my-first-canvas');
+var context = canvas.getContext('2d');</code></pre>
+
+<p>Now you can start drawing on the two-dimensional surface of the <code>canvas</code> element using the API documented in the HTML5 specification at <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html">http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html</a></p>
+
+<p>The 2D API offers a lot of the same tools that you find in a graphics program like Illustrator: strokes, fills, gradients, shadows, shapes, and Bézier curves. The difference is that, instead of using a Graphical User Interface, you have to specify everything using JavaScript.</p>
+
+<h3 id="dancing_about_architecture_drawing_with_code">Dancing about architecture: drawing with code</h3>
+
+<p>This is how you specify that the stroke color should be red:</p>
+
+<pre><code>context.strokeStyle = '#990000';</code></pre>
+
+<p>Now anything you draw will have a red outline. For example, if you want to draw a rectangle, use this syntax:</p>
+
+<pre><code>strokeRect ( left, top, width, height )</code></pre>
+
+<p>If you want to draw a rectangle that’s 100 by 50 pixels in size, positioned 20 pixels from the left and 30 pixels from the top of the canvas element, you’d write this (<a href="#fig-03-02">fig 3.02</a>):</p>
+
+<pre><code>context.strokeRect(20,30,100,50);</code></pre>
+
+<figure id="fig-03-02">
+<img src="../img/fig-03-02.png" alt="">
+<figcaption><b>fig 3.02:</b> A rectangle, drawn with canvas.</figcaption>
+</figure>
+
+<p>That’s one very simple example. The 2D API provides lots of methods: <code>fillStyle</code>, <code>fillRect</code>, <code>lineWidth</code>, <code>shadowColor</code> and many more.</p>
+
+<p>In theory, any image that can be created in a program like Illustrator can be created in the canvas element. In practice, doing so would be laborious and could result in excessively long JavaScript. Besides, that isn’t really the point of canvas.</p>
+
+<h3 id="canvas_huh_what_is_it_good_for">Canvas. Huh! What is it good for?</h3>
+
+<p>It’s all well and good using JavaScript and canvas to create images on the fly, but unless you’re a hardcore masochist, what’s the point?</p>
+
+<p>The real power of canvas is that its contents can be updated at any moment, drawing new content based on the actions of the user. This ability to respond to user-triggered events makes it possible to create tools and games that would have previously required a plug-in technology such as Flash.</p>
+
+<p>One of the first flagship demonstrations of the power of canvas came from Mozilla Labs. The Bespin application (<a href="https://bespin.mozilla.com">https://bespin.mozilla.com</a>) is a code editor that runs in the browser (<a href="#fig-03-03">fig 3.03</a>).</p>
+
+<figure id="fig-03-03">
+<img src="../img/fig-03-03.png" alt="">
+<figcaption><b>fig 3.03:</b> The Bespin application, built with canvas.</figcaption>
+</figure>
+
+<p>It is very powerful. It is very impressive. It is also a perfect example of what <em>not</em> to do with canvas.</p>
+
+<h3 id="access_denied">Access denied</h3>
+
+<p>A code editor, by its nature, handles text. The Bespin code editor handles text within the <code>canvas</code> element—except that it isn’t really text anymore; it’s a series of shapes that look like text.</p>
+
+<p>Every document on the web can be described with a Document Object Model. This DOM can have many different nodes, the most important of which are element nodes, text nodes, and attributes. Those three building blocks are enough to put together just about any document you can imagine. The <code>canvas</code> element has no DOM. The content drawn within canvas cannot be represented as a tree of nodes.</p>
+
+<p>Screen readers and other assistive technology rely on having access to a Document Object Model to make sense of a document. No DOM, no access.</p>
+
+<p>The lack of accessibility in canvas is a big problem for HTML5. Fortunately there are some very smart people working together as a task force to come up with solutions (<a href="http://www.w3.org/WAI/PF/html-task-force">http://www.w3.org/WAI/PF/html-task-force</a>).</p>
+
+<p>Canvas accessibility is an important issue and I don’t want any proposed solutions to be rushed. At the same time, I don’t want canvas to hold up the rest of the HTML5 spec.</p>
+
+<h3 id="clever_canvas">Clever canvas</h3>
+
+<p>Until the lack of accessibility is addressed, it might seem as though canvas is off-limits to web designers. But it ain’t necessarily so.</p>
+
+<p>Whenever I use JavaScript on a website, I use it as an enhancement. Visitors who don’t have JavaScript still have access to all the content, but the experience might not be quite as dynamic as in a JavaScript-capable environment. This multi-tiered approach, called Unobtrusive JavaScript, can also be applied to canvas. Instead of using canvas to create content, use it to recycle existing content.</p>
+
+<p>Suppose you have a table filled with data. You might want to illustrate the trends in the data using a graph. If the data is static, you can generate an image of a graph—using the Google Chart API, for example. If the data is editable, updating in response to user-triggered events, then canvas is a good tool for generating the changing graph. Crucially, the content represented within the <code>canvas</code> element is already accessible in the pre-existing <code>table</code> element.</p>
+
+<p>The clever folks at Filament Group have put together a jQuery plug-in for that very situation (<a href="#fig-03-04">fig 3.04</a>; <a href="http://www.filamentgroup.com/lab/update_to_jquery_visualize_accessible_charts_with_html5_from_designing_with/">http://www.filamentgroup.com/lab/update_to_jquery_visualize_accessible_charts_with_html5_from_designing_with/</a>).</p>
+
+<figure id="fig-03-04">
+<img src="../img/fig-03-04.png" alt="">
+<figcaption><b>fig 3.04:</b> Using canvas to generate a graph from data input by users.</figcaption>
+</figure>
+
+<p>There is another option. Canvas isn’t the only API for generating dynamic images. SVG, Scalable Vector Graphics, is an XML format that can describe the same kind of shapes as canvas. Because XML is a text-based data format, the contents of SVG are theoretically available to screen readers.</p>
+
+<p>In practice, SVG hasn’t captured the imagination of developers in the same way that canvas has. Even though canvas is the new kid on the block, it already enjoys excellent browser support. Safari, Firefox, Opera, and Chrome support canvas. There’s even a JavaScript library that adds canvas support to Internet Explorer (<a href="http://code.google.com/p/explorercanvas/">http://code.google.com/p/explorercanvas/</a>).</p>
+
+<p>Given its mantras of “pave the cowpaths,” and “don’t reinvent the wheel,” it might seem odd that the WHATWG would advocate canvas in HTML5 when SVG already exists. As is so often the case, the HTML5 specification is really just documenting what browsers already do. The canvas element wasn’t dreamt up for HTML5; it was created by Apple and implemented in Safari. Other browser makers saw what Apple was doing, liked what they saw, and copied it.</p>
+
+<p>It sounds somewhat haphazard, but this is often where our web standards come from. Microsoft, for example, created the <code>XMLHttpRequest</code> object for Internet Explorer 5 at the end of the 20th century. A decade later, every browser supports this feature and it’s now a working draft in last call at the W3C.</p>
+
+<p>In the Darwinian world of web browsers, canvas is spreading far and wide. If it can adapt for accessibility, its survival is ensured.</p>
+
+<h2 id="audio">Audio</h2>
+
+<p>The first website I ever made was a showcase for my band. I wanted visitors to the site to be able to listen to the band’s songs. That prompted my journey into the underworld to investigate the many formats and media players competing or my attention: QuickTime, Windows Media Player, Real Audio—I spent far too much time worrying about relative market share and cross-platform compatibility.</p>
+
+<p>In the intervening years, the MP3 format has won the battle for ubiquity. But providing visitors with an easy way to listen to a sound file still requires a proprietary technology. The Flash player has won that battle.</p>
+
+<p>Now HTML5 is stepping into the ring in an attempt to take on the reigning champion.</p>
+
+<p>Embedding an audio file in an HTML5 document is simple:</p>
+
+<pre><code>&lt;audio src="witchitalineman.mp3"&gt;
+&lt;/audio&gt;</code></pre>
+
+<p>That’s a little too simple. You probably want to be a bit more specific about what the audio should do.</p>
+
+<p>Suppose there’s an evil bastard out there who hates the web and all who sail her. This person probably doesn’t care that it’s incredibly rude and stupid to embed an audio file that plays automatically. Thanks to the <code>autoplay</code> attribute, such malevolent ambitions can be realized:</p>
+
+<pre><code>&lt;audio src="witchitalineman.mp3" <ins>autoplay</ins>&gt;
+&lt;/audio&gt;</code></pre>
+
+<p>If you ever use the <code>autoplay</code> attribute in this way, I will hunt you down.</p>
+
+<p>Notice that the <code>autoplay</code> attribute doesn’t have a value. This is known as a Boolean attribute, named for that grand Cork mathematician George Boole.</p>
+
+<p>Computer logic is based entirely on Boolean logic: an electric current is either flowing or it isn’t; a binary value is either one or zero; the result of a computation is either true or false.</p>
+
+<p>Don’t confuse Boolean attributes with Boolean values. You’d be forgiven for thinking that a Boolean attribute would take the values “true” or “false.” Actually, it’s the very existence of the attribute that is Boolean in nature: either the attribute is included or it isn’t. Even if you give the attribute a value, it will have no effect. Writing <code>autoplay="false"</code> or <code>autoplay="no thanks"</code> is the same as writing <code>autoplay</code>.</p>
+
+<p>If you are using XHTML syntax, you can write <code>autoplay="autoplay"</code>. This is brought to you by the Department of Redundancy Department.</p>
+
+<p>When an auto-playing audio file isn’t evil enough, you can inflict even more misery by having the audio loop forever. Another Boolean attribute, called <code>loop</code>, fulfills this dastardly plan:</p>
+
+<pre><code>&lt;audio src="witchitalineman.mp3" autoplay <ins>loop</ins>&gt;
+&lt;/audio&gt;</code></pre>
+
+<p>Using the <code>loop</code> attribute in combination with the <code>autoplay</code> attribute in this way will renew my determination to hunt you down.</p>
+
+<h3 id="out_of_control">Out of control</h3>
+
+<p>The <code>audio</code> element can be used for good as well as evil. Giving users control over the playback of an audio file is a sensible idea that is easily accomplished using the Boolean attribute <code>controls</code>:</p>
+
+<pre><code>&lt;audio src="witchitalineman.mp3" <ins>controls</ins>&gt;
+&lt;/audio&gt;</code></pre>
+
+<p>The presence of the <code>controls</code> attribute prompts the browser to provide native controls for playing and pausing the audio, as well as adjusting the volume (<a href="#fig-03-05">fig 3.05</a>).</p>
+
+<figure id="fig-03-05">
+<img src="../img/fig-03-05.png" alt="">
+<figcaption><b>fig 3.05:</b> Use controls to display play, pause, and volume controls for your audio.</figcaption>
+</figure>
+
+<p>If you’re not happy with the browser’s native controls, you can create your own. Using JavaScript, you can interact with the Audio API, which gives you access to methods such as <code>play</code> and <code>pause</code> and properties such as <code>volume</code>. Here’s a quick ’n’ dirty example using button elements and nasty inline event handlers (<a href="#fig-03-06">fig 3.06</a>):</p>
+
+<pre><code>&lt;audio id="player" src="witchitalineman.mp3"&gt;
+&lt;/audio&gt;
+&lt;div&gt;
+ &lt;button
+ onclick="document.getElementById('player').play()"&gt;
+ Play
+ &lt;/button&gt;
+ &lt;button
+ onclick="document.getElementById('player').pause()"&gt;
+ Pause
+ &lt;/button&gt;
+ &lt;button
+ onclick="document.getElementById('player').volume += 0.1"&gt;
+ Volume Up
+ &lt;/button&gt;
+ &lt;button
+ onclick="document.getElementById('player').volume -= 0.1"&gt;
+ Volume Down
+ &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+<figure id="fig-03-06">
+<img src="../img/fig-03-06.png" alt="">
+<figcaption><b>fig 3.06:</b> The controls produced by the button elements.</figcaption>
+</figure>
+
+<h3 id="buffering">Buffering</h3>
+
+<p>At one point, the HTML5 spec included another Boolean attribute for the audio element. The <code>autobuffer</code> attribute was more polite and thoughtful than the nasty <code>autoplay</code> attribute. It provided a way for authors to inform the browser that—although the audio file shouldn’t play automatically—it will probably be played at some point, so the browser should start pre-loading the file in the background.</p>
+
+<p>This would have been a useful attribute, but unfortunately Safari went a step further. It preloaded audio files regardless of whether or not the <code>autobuffer</code> attribute was present. Remember that because <code>autobuffer</code> was a Boolean attribute, there was no way to tell Safari not to preload the audio: <code>autobuffer="false"</code> was the same as <code>autobuffer="true"</code> or any other value (<a href="https://bugs.webkit.org/show_bug.cgi?id=25267">https://bugs.webkit.org/show_bug.cgi?id=25267</a>).</p>
+
+<p>The <code>autobuffer</code> attribute has now been replaced with the <code>preload</code> attribute. This isn’t a Boolean attribute. It can take three possible values: <code>none</code>, <code>auto</code>, and <code>metadata</code>. Using <code>preload="none"</code>, you can now explicitly tell browsers not to pre-load the audio:</p>
+
+<pre><code>&lt;audio src="witchitalineman.mp3" controls <ins>preload="none"</ins>&gt;
+&lt;/audio&gt;</code></pre>
+
+<p>If you only have one <code>audio</code> element on a page, you might want to use <code>preload="auto"</code>, but the more <code>audio</code> elements you have, the more your visitors’ bandwidth is going to get hammered by excessive preloading.</p>
+
+<h3 id="you_play_to_may_to_i_play_to_mah_to">You play to-may-to, I play to-mah-to</h3>
+
+<p>The <code>audio</code> element appears to be nigh-on perfect. Surely there must be a catch somewhere? There is.</p>
+
+<p>The problem with the <code>audio</code> element isn’t in the specification. The problem lies with audio formats.</p>
+
+<p>Although the MP3 format has become ubiquitous, it is not an open format. Because the format is patent-encumbered, technologies can’t decode MP3 files without paying the patent piper. That’s fine for corporations like Apple or Adobe, but it’s not so easy for smaller companies or open-source groups. Hence, Safari will happily play back MP3 files while Firefox will not.</p>
+
+<p>There are other audio formats out there. The Vorbis codec— usually delivered as an <code>.ogg</code> file—isn’t crippled by any patents. Firefox supports Ogg Vorbis—but Safari doesn’t.</p>
+
+<p>Fortunately, there’s a way to use the <code>audio</code> element without having to make a Sophie’s Choice between file formats. Instead of using the <code>src</code> attribute in the opening <code>&lt;audio&gt;</code> tag, you can specify multiple file formats using the <code>source</code> element:</p>
+
+<pre><code>&lt;audio controls&gt;
+ &lt;source src="witchitalineman<mark>.ogg</mark>"&gt;
+ &lt;source src="witchitalineman<mark>.mp3</mark>"&gt;
+&lt;/audio&gt;</code></pre>
+
+<p>A browser that can play back Ogg Vorbis files will look no further than the first source element. A browser that can play MP3 files but not Ogg Vorbis files will skip over the first <code>source</code> element and play the file in the second <code>source</code> element.</p>
+
+<p>You can help the browsers by providing the mime types for each source file:</p>
+
+<pre><code>&lt;audio controls&gt;
+ &lt;source src="witchitalineman.ogg" <ins>type="audio/ogg"</ins>&gt;
+ &lt;source src="witchitalineman.mp3" <ins>type="audio/mpeg"</ins>&gt;
+&lt;/audio&gt;</code></pre>
+
+<p>The <code>source</code> element is a standalone—or “void”—element, so if you are using XHTML syntax, remember to include a trailing slash at the end of each <code>&lt;source /&gt;</code> tag.</p>
+
+<h3 id="falling_back">Falling back</h3>
+
+<p>The ability to specify multiple source elements is very useful. But there are some browsers that don’t support the <code>audio</code> element at all yet. Can you guess which browser I might be talking about?</p>
+
+<p>Internet Explorer and its ilk need to be spoon-fed audio files the old-fashioned way, via Flash. The content model of the <code>audio</code> element supports this. Anything between the opening and closing <code>&lt;audio&gt;</code> tags that isn’t a <code>source</code> element will be exposed to browsers that don’t understand the <code>audio</code> element:</p>
+
+<pre><code>&lt;audio controls&gt;
+ &lt;source src="witchitalineman.ogg" type="audio/ogg"&gt;
+ &lt;source src="witchitalineman.mp3" type="audio/mpeg"&gt;
+ <ins>&lt;object type="application/x-shockwave-flash"
+ data="player.swf?soundFile=witchitalineman.mp3"&gt;
+  &lt;param name="movie"
+  value="player.swf?soundFile=witchitalineman.mp3"&gt;
+ &lt;/object&gt;</ins>
+&lt;/audio&gt;</code></pre>
+
+<p>The <code>object</code> element in this example will only be exposed to browsers that don’t support the <code>audio</code> element.</p>
+
+<p>You can go even further. The <code>object</code> element also allows you to include fallback content. That means you can provide a good old-fashioned hyperlink as a last resort:</p>
+
+<pre><code>&lt;audio controls&gt;
+ &lt;source src="witchitalineman.ogg" type="audio/ogg"&gt;
+ &lt;source src="witchitalineman.mp3" type="audio/mpeg"&gt;
+ &lt;object type="application/x-shockwave-flash"
+ data="player.swf?soundFile=witchitalineman.mp3"&gt;
+  &lt;param name="movie"
+  value="player.swf?soundFile=witchitalineman.mp3"&gt;
+   <ins>&lt;a href="witchitalineman.mp3"&gt;Download the song&lt;/a&gt;</ins>
+ &lt;/object&gt;
+&lt;/audio&gt;</code></pre>
+
+<p>This example has four levels of graceful degradation:</p>
+
+<ul>
+<li>The browser supports the <code>audio</code> element and the Ogg Vorbis format.</li>
+<li>The browser supports the <code>audio</code> element and the MP3 format.</li>
+<li>The browser doesn’t support the <code>audio</code> element but does have the Flash plug-in installed.</li>
+<li>The browser doesn’t support the <code>audio</code> element and doesn’t have the Flash plug-in installed.</li>
+</ul>
+
+<h3 id="access_all_areas">Access all areas</h3>
+
+<p>The content model of the <code>audio</code> element is very useful for providing fallback content. Fallback content is not the same as accessibility content.</p>
+
+<p>Suppose there’s a transcript to go along with an audio file. This is <em>not</em> the way to mark it up:</p>
+
+<pre><code>&lt;audio controls&gt;
+ &lt;source src="witchitalineman.ogg" type="audio/ogg"&gt;
+ &lt;source src="witchitalineman.mp3" type="audio/mpeg"&gt;
+ &lt;p&gt;I am a lineman for the county...&lt;/p&gt;
+&lt;/audio&gt;</code></pre>
+
+<p>The transcript will only be visible to browsers that don’t support the <code>audio</code> element. Marking up the non-audio content in that way isn’t going to help a deaf user with a good browser. Besides, so-called accessibility content is often very useful for everyone, so why hide it?</p>
+
+<pre><code>&lt;audio controls&gt;
+ &lt;source src="witchitalineman.ogg" type="audio/ogg"&gt;
+ &lt;source src="witchitalineman.mp3" type="audio/mpeg"&gt;
+&lt;/audio&gt;
+&lt;p&gt;I am a lineman for the county...&lt;/p&gt;</code></pre>
+
+<h2 id="video">Video</h2>
+
+<p>If browser-native audio is exciting, the prospect of browser-native video has web designers salivating in anticipation. As bandwidth has increased, video content has grown increasingly popular. The Flash plug-in is currently the technology of choice for displaying video on the web. HTML5 could change that.</p>
+
+<p>The <code>video</code> element works just like the <code>audio</code> element. It has the optional <code>autoplay</code>, <code>loop</code>, and <code>preload</code> attributes. You can specify the location of the video file by either using the <code>src</code> attribute on the <code>video</code> element or by using <code>source</code> elements nested within the opening and closing <code>&lt;video&gt;</code> tags. You can let the browser take care of providing a user interface with the <code>controls</code> attribute or you can script your own controls.</p>
+
+<p>The main difference between audio and video content is that movies, by their nature, will take up more room on the screen, so you’ll probably want to provide dimensions:</p>
+
+<pre><code>&lt;video src="movie.mp4" controls <ins>width="360" height="240"</ins>&gt;
+&lt;/video&gt;</code></pre>
+
+<p>You can choose a representative image for the video and tell the browser to display it using the poster attribute (<a href="#fig-03-07">fig 3.07</a>):</p>
+
+<pre><code>&lt;video src="movie.mp4" controls width="360"
+height="240" <ins>poster="placeholder.jpg"</ins>&gt;
+&lt;/video&gt;</code></pre>
+
+<figure id="fig-03-07">
+<img src="../img/fig-03-07.png" alt="">
+<figcaption><b>fig 3.07:</b> This placeholder image is displayed using the <code>poster</code> attribute.</figcaption>
+</figure>
+
+<p>The battleground of competing video formats is even bloodier than that of audio. Some of the big players are MP4—which is patent-encumbered—and Theora Video, which isn’t. Once again, you’ll need to provide alternate encodings and fallback content:</p>
+
+<pre><code>&lt;video controls width="360" height="240"
+poster="placeholder.jpg"&gt;
+ &lt;source src="movie.ogv" type="video/ogg"&gt;
+ &lt;source src="movie.mp4" type="video/mp4"&gt;
+ &lt;object type="application/x-shockwave-flash"
+ width="360" height="240"
+ data="player.swf?file=movie.mp4"&gt;
+  &lt;param name="movie"
+  value="player.swf?file=movie.mp4"&gt;
+  &lt;a href="movie.mp4"&gt;Download the movie&lt;/a&gt;
+ &lt;/object&gt;
+&lt;/video&gt;</code></pre>
+
+<p>The authors of the HTML5 specification had originally hoped to specify a baseline level of format support. Alas, the browser makers could not agree on a single format.</p>
+
+<h3 id="going_native">Going native</h3>
+
+<p>The ability to embed video natively in web pages could be the most exciting addition to HTML since the introduction of the <code>img</code> element. Big players like Google have not been shy in expressing their enthusiasm. You can get a taste for what they have planned for YouTube at <a href="http://youtube.com/HTML5">http://youtube.com/HTML5</a>.</p>
+
+<p>One of the problems with relying on a plug-in for rich media is that plug-in content is sandboxed from the rest of the document. Having native rich media elements in HTML means that they play nicely with the other browser technologies— JavaScript and CSS.</p>
+
+<p>The video element is not only scriptable, it is also styleable (<a href="#fig-03-08">fig 3.08</a>).</p>
+
+<figure id="fig-03-08">
+<img src="../img/fig-03-08.png" alt="">
+<figcaption><b>fig 3.08:</b> The video element, styled.</figcaption>
+</figure>
+
+<p>Try doing that to a plug-in.</p>
+
+<p>Audio and video are welcome additions to HTML5, but the web isn’t a broadcast medium—it’s interactive. Forms are the oldest and most powerful way of enabling interaction. In Chapter 4, we’ll take a look at how forms are getting an upgrade in HTML5.</p>
+
+<a rel="next" href="../forms/index.html">Web Forms 2.0</a>
+
+<nav role="navigation">
+<h1 id="table_of_contents">Table Of Contents</h1>
+<ol role="navigation">
+<li><a rel="chapter" href="../history/index.html">A Brief History of Markup</a></li>
+<li><a rel="chapter" href="../design/index.html">The Design of HTML5</a></li>
+<li><a>Rich Media</a></li>
+<li><a rel="chapter" href="../forms/index.html">Web Forms 2.0</a></li>
+<li><a rel="chapter" href="../semantics/index.html">Semantics</a></li>
+<li><a rel="chapter" href="../today/index.html">Using HTML5 Today</a></li>
+<li><a href="../index/index.html">Index</a></li>
+</ol>
+</nav>
+
+<aside>
+<h1>Buy the book</h1>
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="paperback">Paperback</label></h2>
+<input type="hidden" name="id" value="47764342">
+<button id="paperback" type="submit">Buy it</button>
+<label for="paperback">$18.00 + shipping</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="ebook">Ebook</label></h2>
+<input type="hidden" name="id" value="49719022">
+<button id="ebook" type="submit">Buy it</button>
+<label for="ebook">$9.00</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="bundle">Paperback &amp; ebook bundle</label></h2>
+<input type="hidden" name="id" value="49719092">
+<button id="bundle" type="submit">Buy it</button>
+<label for="bundle">$23.00 + shipping</label>
+</form>
+</aside>
+
+<footer role="contentinfo">
+<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="http://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
+</footer>
+
+</body>
+</html>

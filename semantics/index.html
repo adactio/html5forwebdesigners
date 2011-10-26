@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" manifest="/manifest.appcache">
+<head>
+<meta charset="utf-8">
+<title>HTML5 For Web Designers, Chapter 5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" media="all" href="../css/global.css">
+</head>
+<body>
+
+<a href="../index.html"><b>Home</b></a>
+
+<h1 id="semantics">Semantics</h1>
+
+<p>HTML doesn’t provide a huge number of elements for us to work with. The selection available is more like that of a corner store than a Walmart.</p>
+
+<p>We have paragraphs, lists, and headlines but we don’t have events, news stories, or recipes. HTML gives us an element for marking up a string as an abbreviation, but it doesn’t give us an element for marking up a number as a price.</p>
+
+<p>Clearly, this limitation hasn’t been a show-stopper; just look at the amazing variety of websites out there. Even though HTML might not provide a specific element for marking up a particular piece of content, it provides just enough flexibility to be “good enough.”</p>
+
+<p>To paraphrase Winston Churchill, HTML is the worst form of markup except all the others that have been tried.</p>
+
+<h2 id="extensibility">Extensibility</h2>
+
+<p>Other markup languages allow you to invent any element you want. In XML, if you want an <code>event</code> element or a <code>price</code> element, you just go right ahead and create it. The downside to this freedom is that you then have to teach a parser what <code>event</code> or <code>price</code> means. The advantage to HTML’s limited set of elements is that every user agent knows about every element. Browsers have a built-in knowledge of HTML. That wouldn’t be possible if we were allowed to make up element names.</p>
+
+<p>HTML provides a handy escape clause that allows web designers to add more semantic value to elements: the <code>class</code> attribute. This attribute allows us to label specific instances of an element as being a special class or type of that element. The fact that browsers don’t understand the vocabulary we use in our class attributes doesn’t affect the rendering of our documents.</p>
+
+<p>If, at this point, you’re thinking “Wait a minute; aren’t classes for CSS?” then you’re half right. The CSS class selector is one example of a technology that makes use of the <code>class</code> attribute but it isn’t the only reason for using classes. Classes can also be used in DOM Scripting. They can even be used by browsers if the class names follow an agreed convention, as is the case with microformats.</p>
+
+<h3 id="microformats">Microformats</h3>
+
+<p>Microformats are a set of conventions which are agreed upon by a community. These formats use the <code>class</code> attribute to plug some of the more glaring holes in HTML: hCard for contact details, hCalendar for events, hAtom for news stories. Because there is a community consensus on what class names to use, there are now parsers and browser extensions that work with those specific patterns.</p>
+
+<p>Microformats are limited by design. They don’t attempt to solve every possible use case. Instead, they aim for the “lowhanging fruit.” They solve 80% of the use cases with 20% of the effort. Deciding what qualifies as “low-hanging fruit” is pretty straightforward: Just look at what kind of content people are already marking up. In other words, pave the cowpaths.</p>
+
+<p>Sound familiar? Microformats and HTML5 are built on very similar philosophies. In fact, the way I described microformats—conventions agreed upon by a community—could just as easily be applied to HTML5.</p>
+
+<h3 id="boiling_the_ocean">Boiling the ocean</h3>
+
+<p>The way that the microformats process has been used as a template for developing HTML5 isn’t to everyone’s taste. While the 80/20 rule is good enough for the rough ’n’ ready world of class names, is it really good enough for the most important markup language in the world?</p>
+
+<p>Some people feel that HTML needs to be infinitely extensible. That means it isn’t enough to provide solutions to the majority of use cases; the language must provide a solution to any possible use case.</p>
+
+<p>Perhaps the most eloquent argument for this kind of extensibility came from John Allsopp in his superb <cite>A List Apart</cite> article, “Semantics in HTML5” (<a href="http://www.alistapart.com/articles/semanticsinHTML5">http://www.alistapart.com/articles/semanticsinHTML5</a>):</p>
+
+<blockquote>
+  <p>We don’t need to add specific terms to the vocabulary of HTML, we need to add a mechanism that allows semantic richness to be added to a document as required.</p>
+</blockquote>
+
+<p>Technologies already exist to do just that. RDFa allows authors to embed custom vocabularies within HTML documents. But unlike microformats—which simply use an agreed set of class names—RDFa uses namespaces to allow an infinite variety of formats. So where a microformat might use markup such as <code>&lt;h1 class="summary"&gt;</code>, RDFa would use <code>&lt;h1 property="myformat:summary"&gt;</code>.</p>
+
+<p>There’s no doubt that RDFa is potentially very powerful, but its expressiveness comes at a price. Namespaces introduce an extra layer of complexity that doesn’t sit well with the relatively simple nature of HTML.</p>
+
+<p>The namespace debate isn’t new. In a blog post from a few years back, Mark Nottingham mused on the potentially destructive side-effects (<a href="http://www.mnot.net/blog/2006/04/07/extensibility">http://www.mnot.net/blog/2006/04/07/extensibility</a>):</p>
+
+<blockquote>
+  <p>What I found interesting about HTML extensibility was that namespaces weren’t necessary; Netscape added blink, MSFT added marquee, and so forth. I’d put forth that having namespaces in HTML from the start would have had the effect of legitimising and institutionalising the differences between different browsers instead of (eventually) converging on the same solution.</p>
+</blockquote>
+
+<p>Rather than infinite extensibility, that’s a powerful argument for a limited vocabulary based on community consensus.</p>
+
+<p>HTML5 will probably ship with some kind of method for extending its native semantics. The <code>class</code> attribute is still in there of course, so microformats will continue to work as they always have. HTML5 might be altered to become compatible with RDFa, or it might use its own “microdata” vocabulary.</p>
+
+<p>In either case, such extensibility will probably be of very little interest to most web designers. What really matters are the native semantics, agreed upon by a community and implemented by browser vendors.</p>
+
+<h2 id="new_elements">New Elements</h2>
+
+<p>HTML5 introduces a handful of new inline elements to augment our existing arsenal of <code>span</code>, <code>strong</code>, <code>em</code>, <code>abbr</code>, et al. Oh, and we don’t call them “inline” anymore. Instead, they describe “text-level semantics.”</p>
+
+<h3 id="mark"><code>mark</code></h3>
+
+<p>When browsing a list of search results, you’ll often see the search term highlighted within each result. You could mark up each instance of the search term with a <code>span</code> element, but <code>span</code> is a semantically meaningless crutch, good for little more than hanging classes off for styling.</p>
+
+<p>You could use <code>em</code> or <code>strong</code> but that wouldn’t be semantically accurate; you don’t want to place any importance on the search term, you simply want it to be highlighted somehow.</p>
+
+<p>Enter the <code>mark</code> element:</p>
+
+<pre><code>&lt;h1&gt;Search results for 'unicorn'&lt;/h1&gt;
+&lt;ol&gt;
+ &lt;li&gt;&lt;a href="http://clearleft.com/"&gt;
+ Riding the UX <mark>&lt;mark&gt;unicorn&lt;/mark&gt;</mark>
+ across the rainbow of the web.
+ &lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+<p>The <code>mark</code> element doesn’t attach any importance to the content within it, other than to show that it’s currently of interest. As the specification says, <code>mark</code> denotes “a run of text in one document marked or highlighted for reference purposes, due to its relevance in another context.”</p>
+
+<p>The <code>mark</code> element is permitted in contexts other than search results, but I’m damned if I can think of a single such example.</p>
+
+<h3 id="time"><code>time</code></h3>
+
+<p>hCalendar is one of the most popular microformats because it scratches a very common itch: marking up events so that users can add them straight to their calendar.</p>
+
+<p>The only tricky bit in hCalendar is describing dates and times in a machine-readable way. Humans like to describe dates as “May 25th” or “next Wednesday” but parsers expect a nicely-formated ISO date: YYYY-MM-DDThh:mm:ss.</p>
+
+<p>The microformats community came up with some clever solutions to this problem, such as using the <code>abbr</code> element:</p>
+
+<pre><code>&lt;abbr class="dtstart" title="1992-01-12"&gt;
+ January 12th, 1992
+&lt;/abbr&gt;</code></pre>
+
+<p>If using the <code>abbr</code> element in this way makes you feel a little queasy, there are plenty of other ways of marking up machine-readable dates and times in microformats using the class-value pattern. In HTML5, the issue is solved with the new <code>time</code> element:</p>
+
+<pre><code>&lt;time class="dtstart" datetime="1992-01-12"&gt;
+ January 12th, 1992
+&lt;/time&gt;</code></pre>
+
+<p>The <code>time</code> element can be used for dates, times, or combinations of both:</p>
+
+<pre><code>&lt;time datetime="17:00"&gt;5pm&lt;/time&gt;
+&lt;time datetime="2010-04-07"&gt;April 7th&lt;/time&gt;
+&lt;time datetime="2010-04-07T17:00"&gt;5pm on April 7th&lt;/time&gt;</code></pre>
+
+<p>You don’t have to put the <code>datetime</code> value inside the <code>datetime</code> attribute—but if you don’t, then you must expose the value to the end user:</p>
+
+<pre><code>&lt;time&gt;2010-04-07&lt;/time&gt;</code></pre>
+
+<h3 id="meter"><code>meter</code></h3>
+
+<p>The <code>meter</code> element can be used to mark up measurements, provided that those measurements are part of a scale with minimum and maximum values.</p>
+
+<pre><code>&lt;meter&gt;9 out of 10 cats&lt;/meter&gt;</code></pre>
+
+<p>You don’t have to expose the maximum value if you don’t want to. You can use the <code>max</code> attribute instead:</p>
+
+<pre><code>&lt;meter max="10"&gt;9 cats&lt;/meter&gt;</code></pre>
+
+<p>There’s a corresponding <code>min</code> attribute. You also get <code>high</code>, <code>low</code>, and <code>optimum</code> attributes to play with. If you want, you can even hide the measurement itself inside a <code>value</code> attribute.</p>
+
+<pre><code>&lt;meter low="-273" high="100" min="12" max="30"
+optimum="21" value="25"&gt;
+ It's quite warm for this time of year.
+&lt;/meter&gt;</code></pre>
+
+<h3 id="progress"><code>progress</code></h3>
+
+<p>While <code>meter</code> is good for describing something that has already been measured, the <code>progress</code> element allows you to mark up a value that is in the process of changing:</p>
+
+<pre><code>Your profile is &lt;progress&gt;60%&lt;/progress&gt; complete.</code></pre>
+
+<p>Once again, you have <code>min</code>, <code>max</code>, and <code>value</code> attributes if you want to use them:</p>
+
+<pre><code>&lt;progress min="0" max="100" value="60"&gt;&lt;/progress&gt;</code></pre>
+
+<p>The <code>progress</code> element is most useful when used in combination with DOM Scripting. You can use JavaScript to dynamically update the value, allowing the browser to communicate that change to the user—very handy for Ajax file uploads.</p>
+
+<h2 id="structure">Structure</h2>
+
+<p>Back in 2005, Google did some research to find out what kind of low-hanging fruit could be found on the cowpaths of the web (<a href="http://code.google.com/webstats/">http://code.google.com/webstats/</a>).</p>
+
+<p>A parser looked at over a billion web pages and tabulated the most common class names. The results were unsurprising. Class names such as “header,” “footer,” and “nav” were prevalent. These emergent semantics map nicely to some of the new structural elements introduced in HTML5.</p>
+
+<h3 id="section"><code>section</code></h3>
+
+<p>The <code>section</code> element is used for grouping together thematically-related content. That sounds a lot like the <code>div</code> element, which is often used as a generic content container. The difference is that <code>div</code> has no semantic meaning; it doesn’t tell you anything about the content within. The <code>section</code> element, on the other hand, is used explicitly for grouping related content.</p>
+
+<p>You might be able to replace some of your <code>div</code> elements with <code>section</code> elements, but remember to always ask yourself, “Is all of the content related?”</p>
+
+<pre><code><ins>&lt;section&gt;</ins>
+ &lt;h1&gt;DOM Scripting&lt;/h1&gt;
+ &lt;p&gt;The book is aimed at designers
+ rather than programmers.&lt;/p&gt;
+ &lt;p&gt;By Jeremy Keith&lt;/p&gt;
+<ins>&lt;/section&gt;</ins></code></pre>
+
+<h3 id="header"><code>header</code></h3>
+
+<p>The HTML5 spec describes the <code>header</code> element as a container for “a group of introductory or navigational aids.” That sounds reasonable. That’s the kind of content I would expect to find in a masthead, and the word “header” is often used as a synonym for masthead.</p>
+
+<p>There’s a crucial difference between the <code>header</code> element in HTML5 and the generally accepted use of the word “header” or “masthead.” There’s usually only one masthead in a page, but a document can have multiple <code>header</code> elements. You can use the <code>header</code> element within a <code>section</code> element, for example. In fact, you probably should use a <code>header</code> within a <code>section</code>. The specification describes the <code>section</code> element as “a thematic grouping of content, <em>typically with a heading</em>.”</p>
+
+<pre><code>&lt;section&gt;
+ <ins>&lt;header&gt;</ins>
+  &lt;h1&gt;DOM Scripting&lt;/h1&gt;
+ <ins>&lt;/header&gt;</ins>
+ &lt;p&gt;The book is aimed at designers
+ rather than programmers.&lt;/p&gt;
+ &lt;p&gt;By Jeremy Keith&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+
+<p>A <code>header</code> will usually appear at the top of a document or section, but it doesn’t have to. It is defined by its content—introductory or navigational aids—rather than its position.</p>
+
+<h3 id="footer"><code>footer</code></h3>
+
+<p>Like the <code>header</code> element, <code>footer</code> sounds like it’s a description of position but, as with <code>header</code>, this isn’t the case. Instead, the <code>footer</code> element should contain information about its containing element: who wrote it, copyright information, links to related content, etc.</p>
+
+<p>That maps quite nicely onto the mental model that web designers have for the word “footer.” The difference is that, whereas we are used to having one footer for an entire document, HTML5 allows us to also have footers within sections.</p>
+
+<pre><code>&lt;section&gt;
+ &lt;header&gt;
+  &lt;h1&gt;DOM Scripting&lt;/h1&gt;
+ &lt;/header&gt;
+ &lt;p&gt;The book is aimed at designers
+ rather than programmers.&lt;/p&gt;
+ <ins>&lt;footer&gt;</ins>
+  &lt;p&gt;By Jeremy Keith&lt;/p&gt;
+ <ins>&lt;/footer&gt;</ins>
+&lt;/section&gt;</code></pre>
+
+<h3 id="aside"><code>aside</code></h3>
+
+<p>Just as the <code>header</code> element matches the concept of a masthead, the <code>aside</code> element matches the concept of a sidebar. When I say “sidebar,” I’m not referring to position. Just because some content appears to the left or to the right of the main content isn’t enough reason to use the <code>aside</code> element. Once again, it’s the content that matters, not the position.</p>
+
+<p>The <code>aside</code> element should be used for tangentially related content. If you have a chunk of content that you consider to be separate from the main content, then the <code>aside</code> element is probably the right container for it. Ask yourself if the content within an <code>aside</code> could be removed without reducing the meaning of the main content of the document or section.</p>
+
+<p>Pullquotes are a good example of tangentially related content; they’re nice to have, but you can remove them without affecting the comprehension of the main content.</p>
+
+<p>Remember, just because your visual design calls for some content to appear in a sidebar doesn’t necessarily mean that <code>aside</code> is the correct containing element. It’s quite common, for example, to place an author bio in a sidebar. That kind of data is best suited to the <code>footer</code> element—the specification explicitly mentions authorship information as being suitable for footers (<a href="#fig-05-01">fig 5.01</a>).</p>
+
+<figure id="fig-05-01">
+<img src="../img/fig-05-01.png" alt="24 Ways">
+<figcaption><b>fig 5.01:</b> The “about the author” text in this screenshot should be marked up with <code>footer</code>, not <code>aside</code>.</figcaption>
+</figure>
+
+<p>Ninety percent of the time, headers will be positioned at the top of your content, footers will be positioned at the end of your content, and asides will be positioned to one side. But don’t get complacent. Stay on your toes and watch out for the remaining ten percent.</p>
+
+<h3 id="nav"><code>nav</code></h3>
+
+<p>The <code>nav</code> element does exactly what you think it does. It contains navigation information, usually a list of links.</p>
+
+<p>Actually, I’d better clarify that. The <code>nav</code> element is intended for major navigation information. Just because a group of links are grouped together in a list isn’t enough reason to use the <code>nav</code> element. Site-wide navigation, on the other hand, almost certainly belongs in a <code>nav</code> element.</p>
+
+<p>Quite often, a <code>nav</code> element will appear within a <code>header</code> element. That makes sense when you consider that the <code>header</code> element can be used for “navigational aids.”</p>
+
+<h3 id="article"><code>article</code></h3>
+
+<p>It’s helpful to think of <code>header</code>, <code>footer</code>, <code>nav</code>, and <code>aside</code> as being specialized forms of the <code>section</code> element. A section is a generic chunk of related content, while headers, footers, navs, and asides are chunks of <em>specific</em> kinds of related content.</p>
+
+<p>The <code>article</code> element is another specialized kind of <code>section</code>. Use it for self-contained related content. Now the tricky part is deciding what constitutes “self-contained.”</p>
+
+<p>Ask yourself if you would syndicate the content in an RSS or Atom feed. If the content still makes sense in that context, then <code>article</code> is probably the right element to use. In fact, the <code>article</code> element is specifically designed for syndication.</p>
+
+<p>If you use a <code>time</code> element within an <code>article</code>, you can add an optional <code>pubdate</code> Boolean attribute to indicate that it contains the date of publication:</p>
+
+<pre><code><ins>&lt;article&gt;</ins>
+ &lt;header&gt;
+  &lt;h1&gt;DOM Scripting review&lt;/h1&gt;
+ &lt;/header&gt;
+ &lt;p&gt;A small lighthouse for what has been a long
+ and sometimes dark voyage for JavaScript.&lt;/p&gt;
+ &lt;footer&gt;
+  &lt;p&gt;Published
+   &lt;time datetime="2005-10-08T15:13" <ins>pubdate</ins>&gt;
+    3:13pm on October 8th, 2005
+   &lt;/time&gt;
+  by Glenn Jones&lt;/p&gt;
+ &lt;/footer&gt;
+<ins>&lt;/article&gt;</ins></code></pre>
+
+<p>If you have more than one <code>time</code> element within an article, only one of them can have the <code>pubdate</code> attribute.</p>
+
+<p>The <code>article</code> element is useful for blog posts, news stories, comments, reviews, and forum posts. It covers exactly the same use cases as the hAtom microformat.</p>
+
+<p>The HTML5 specification goes further than that. It also declares that the <code>article</code> element should be used for self-contained widgets: stock tickers, calculators, clocks, weather widgets, and the like. Now the <code>article</code> element is trying to cover the same use cases as Microsoft’s Web Slices (<a href="http://www.ieaddons.com/en/webslices/">http://www.ieaddons.com/en/webslices/</a>).</p>
+
+<p>It seems very unintuitive to me that an element named “article” should apply to the construct known as “widget.” Then again, both articles and widgets are self-contained syndicatable kinds of content.</p>
+
+<p>What’s more problematic is that <code>article</code> and <code>section</code> are so very similar. All that separates them is the word “self-contained.” Deciding which element to use would be easy if there were some hard and fast rules. Instead, it’s a matter of interpretation. You can have multiple articles within a section, you can have multiple sections within an article, you can nest sections within sections and articles within articles. It’s up to you to decide which element is the most semantically appropriate in any given situation.</p>
+
+<h3 id="a_cure_for_div_itis">A cure for div-itis?</h3>
+
+<p>HTML5 gives us the handful of new structural elements described above. They’re especially handy if you’re putting together a conventional site, such as a blog. Most blog designs consist of a header followed by a series of articles, with some tangential content in an aside, and finished off with a footer (<a href="#fig-05-02">fig 5.02</a>).</p>
+
+<figure id="fig-05-02">
+<img src="../img/fig-05-02.png" alt="Adactio">
+<figcaption><b>fig 5.02: </b>The blog of yours truly.</figcaption>
+</figure>
+
+<p>You can now replace some of your <code>div</code> elements with more semantically precise structural elements. Don’t go overboard, though. Chances are, if you are using a <code>div</code> today, you will still be using a <code>div</code> tomorrow. Don’t swap your <code>div</code> elements for shiny new HTML5 elements just for the sake of it. Think about the content.</p>
+
+<p>These new elements weren’t created just to replace <code>div</code> elements. They provide web browsers with a completely new way of understanding your content.</p>
+
+<h2 id="content_models">Content Models</h2>
+
+<p>Previous flavors of markup divided elements into two categories: inline and block. HTML5 uses a more fine-grained approach, dividing elements into a wider range of categories.</p>
+
+<p>Inline elements now have a content model of “text-level semantics.” Many block level elements now fall under the banner of “grouping content”: paragraphs, list items, divs, and so on. Forms have their own separate content model. Images, audio, video, and canvas are all “embedded content.” The new structural elements introduce a completely new content model called “sectioning content.”</p>
+
+<h3 id="sectioning_content">Sectioning content</h3>
+
+<p>It’s possible to create an outline of an HTML document using the heading elements, <code>h1</code> to <code>h6</code>. Take a look at this markup, for example:</p>
+
+<pre><code>&lt;h1&gt;An Event Apart&lt;/h1&gt;
+&lt;h2&gt;Cities&lt;/h2&gt;
+&lt;p&gt;Join us in these cities in 2010.&lt;/p&gt;
+&lt;h3&gt;Seattle&lt;/h3&gt;
+&lt;p&gt;Follow the yellow brick road to the emerald city.&lt;/p&gt;
+&lt;h3&gt;Boston&lt;/h3&gt;
+&lt;p&gt;That's Beantown to its friends.&lt;/p&gt;
+&lt;h3&gt;Minneapolis&lt;/h3&gt;
+&lt;p&gt;It's so &lt;em&gt;nice&lt;/em&gt;.&lt;/p&gt;
+&lt;small&gt;Accommodation not provided.&lt;/small&gt;</code></pre>
+
+<p>That gives us this outline:</p>
+
+<ul>
+<li>An Event Apart</li>
+<li><ul>
+<li>Cities</li>
+</ul></li>
+<li><ul>
+<li><ul>
+<li>Seattle</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li><ul>
+<li>Boston</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li><ul>
+<li>Minneapolis</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>This works well enough. Any content that follows a heading element is presumed to be associated with that heading.</p>
+
+<p>Now look at the final <code>small</code> element. That should be associated with the entire document. But a browser has no way of knowing that. There’s no way of knowing that the <code>small</code> element shouldn’t fall under the heading “Minneapolis.”</p>
+
+<p>The new sectioning content in HTML5 allows you to explicitly demarcate the start and the end of related content:</p>
+
+<pre><code>&lt;h1&gt;An Event Apart&lt;/h1&gt;
+<ins>&lt;section&gt;</ins>
+ &lt;header&gt;
+  &lt;h2&gt;Cities&lt;/h2&gt;
+ &lt;/header&gt;
+ &lt;p&gt;Join us in these cities in 2010.&lt;/p&gt;
+ &lt;h3&gt;Seattle&lt;/h3&gt;
+ &lt;p&gt;Follow the yellow brick road.&lt;/p&gt;
+ &lt;h3&gt;Boston&lt;/h3&gt;
+ &lt;p&gt;That's Beantown to its friends.&lt;/p&gt;
+ &lt;h3&gt;Minneapolis&lt;/h3&gt;
+ &lt;p&gt;It's so &lt;em&gt;nice&lt;/em&gt;.&lt;/p&gt;
+<ins>&lt;/section&gt;</ins>
+&lt;small&gt;Accommodation not provided.&lt;/small&gt;</code></pre>
+
+<p>Now it’s clear that the <code>small</code> element falls under the heading “An Event Apart” rather than “Minneapolis.”</p>
+
+<p>I can subdivide this content even further, placing each city in its own section:</p>
+
+<pre><code>&lt;h1&gt;An Event Apart&lt;/h1&gt;
+<ins>&lt;section&gt;</ins>
+ &lt;header&gt;
+  &lt;h2&gt;Cities&lt;/h2&gt;
+ &lt;/header&gt;
+ &lt;p&gt;Join us in these cities in 2010.&lt;/p&gt;
+ <ins>&lt;section&gt;</ins>
+  &lt;header&gt;
+   &lt;h3&gt;Seattle&lt;/h3&gt;
+  &lt;/header&gt;
+  &lt;p&gt;Follow the yellow brick road.&lt;/p&gt;
+ <ins>&lt;/section&gt;</ins>
+ <ins>&lt;section&gt;</ins>
+  &lt;header&gt;
+   &lt;h3&gt;Boston&lt;/h3&gt;
+  &lt;/header&gt;
+  &lt;p&gt;That's Beantown to its friends.&lt;/p&gt;
+ <ins>&lt;/section&gt;</ins>
+ <ins>&lt;section&gt;</ins>
+  &lt;header&gt;
+   &lt;h3&gt;Minneapolis&lt;/h3&gt;
+  &lt;/header&gt;
+  &lt;p&gt;It's so &lt;em&gt;nice&lt;/em&gt;.&lt;/p&gt;
+ <ins>&lt;/section&gt;</ins>
+<ins>&lt;/section&gt;</ins>
+&lt;small&gt;Accommodation not provided.&lt;/small&gt;</code></pre>
+
+<p>That still gives us the same outline:</p>
+
+<ul>
+<li>An Event Apart</li>
+<li><ul>
+<li>Cities</li>
+</ul></li>
+<li><ul>
+<li><ul>
+<li>Seattle</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li><ul>
+<li>Boston</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li><ul>
+<li>Minneapolis</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="the_outline_algorithm">The outline algorithm</h3>
+
+<p>So far, the new sectioning content isn’t giving us much more than what we could do with previous versions of HTML. Here’s the kicker: In HTML5, each piece of sectioning content has its own self-contained outline. That means you don’t have to keep track of what heading level you should be using—you can just start from <code>h1</code> each time:</p>
+
+<pre><code>&lt;h1&gt;An Event Apart&lt;/h1&gt;
+&lt;section&gt;
+ &lt;header&gt;
+  <ins>&lt;h1&gt;Cities&lt;/h1&gt;</ins>
+ &lt;/header&gt;
+ &lt;p&gt;Join us in these cities in 2010.&lt;/p&gt;
+ &lt;section&gt;
+  &lt;header&gt;
+   <ins>&lt;h1&gt;Seattle&lt;/h1&gt;</ins>
+  &lt;/header&gt;
+  &lt;p&gt;Follow the yellow brick road.&lt;/p&gt;
+ &lt;/section&gt;
+ &lt;section&gt;
+  &lt;header&gt;
+   <ins>&lt;h1&gt;Boston&lt;/h1&gt;</ins>
+  &lt;/header&gt;
+  &lt;p&gt;That’s Beantown to its friends.&lt;/p&gt;
+ &lt;/section&gt;
+ &lt;section&gt;
+  &lt;header&gt;
+   <ins>&lt;h1&gt;Minneapolis&lt;/h1&gt;</ins>
+  &lt;/header&gt;
+  &lt;p&gt;It's so &lt;em&gt;nice&lt;/em&gt;.&lt;/p&gt;
+ &lt;/section&gt;
+&lt;/section&gt;
+&lt;small&gt;Accommodation not provided.&lt;/small&gt;</code></pre>
+
+<p>In previous versions of HTML, this would have produced an inaccurate outline:</p>
+
+<ul>
+<li>An Event Apart</li>
+<li>Cities</li>
+<li>Seattle</li>
+<li>Boston</li>
+<li>Minneapolis</li>
+</ul>
+
+<p>In HTML5, the outline is accurate:</p>
+
+<ul>
+<li>An Event Apart</li>
+<li><ul>
+<li>Cities</li>
+</ul></li>
+<li><ul>
+<li><ul>
+<li>Seattle</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li><ul>
+<li>Boston</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li><ul>
+<li>Minneapolis</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="hgroup"><code>hgroup</code></h3>
+
+<p>There are times when you might want to use a heading element but you don’t want its contents to appear in the document outline. The <code>hgroup</code> element allows you to do just that:</p>
+
+<pre><code>&lt;hgroup&gt;
+ &lt;h1&gt;An Event Apart&lt;/h1&gt;
+ &lt;h2&gt;For people who make websites&lt;/h2&gt;
+&lt;/hgroup&gt;</code></pre>
+
+<p>In this case, the level two heading “For people who make websites” is really a tagline. In an <code>hgroup</code> element, only the first heading will contribute to the outline. The first heading doesn’t necessarily have to be an <code>h1</code>:</p>
+
+<pre><code>&lt;hgroup&gt;
+ &lt;h3&gt;DOM Scripting&lt;/h3&gt;
+ &lt;h4&gt;Web Design with JavaScript and the Document Object Model&lt;/h4&gt;
+&lt;/hgroup&gt;</code></pre>
+
+<h3 id="sectioning_roots">Sectioning roots</h3>
+
+<p>Some elements are invisible to the generated outline. In other words, it doesn’t matter how many headings you use within these elements, they won’t appear in the document’s outline.</p>
+
+<p>The <code>blockquote</code>, <code>fieldset</code>, and <code>td</code> elements are all immune to the outline algorithm. These elements are called “sectioning roots”—not to be confused with sectioning content.</p>
+
+<h3 id="portability">Portability</h3>
+
+<p>Because each piece of sectioning content generates its own outline, you can now get far more heading levels than simply <code>h1</code> to <code>h6</code>. There is no limit to how deep your heading levels can go. More importantly, you can start to think about your content in a truly modular way.</p>
+
+<p>Suppose I have a blog post entitled “Cheese sandwich.” Before HTML5, I would need to know the context of the blog post in order to decide which heading level to use for the title of the post. If the post is on the front page, then it appears after an <code>h1</code> element containing the title of my blog:</p>
+
+<pre><code>&lt;h1&gt;My awesome blog&lt;/h1&gt;
+&lt;h2&gt;&lt;a href="cheese.html"&gt;Cheese sandwich&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;My cat ate a cheese sandwich.&lt;/p&gt;</code></pre>
+
+<p>But if I’m publishing the blog post on its own page, then I want the title of the blog post to be a level one heading:</p>
+
+<pre><code>&lt;h1&gt;Cheese sandwich&lt;/h1&gt;
+&lt;p&gt;My cat ate a cheese sandwich.&lt;/p&gt;</code></pre>
+
+<p>In HTML5, I don’t have to worry about which heading level to use. I just need to use sectioning content—an <code>article</code> element in this case:</p>
+
+<pre><code>&lt;article&gt;
+ &lt;h1&gt;Cheese sandwich&lt;/h1&gt;
+ &lt;p&gt;My cat ate a cheese sandwich.&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+
+<p>Now the content is truly portable. It doesn’t matter whether it’s appearing on its own page or on the home page:</p>
+
+<pre><code>&lt;h1&gt;My awesome blog&lt;/h1&gt;
+&lt;article&gt;
+ &lt;h1&gt;Cheese sandwich&lt;/h1&gt;
+ &lt;p&gt;My cat ate a cheese sandwich.&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+
+<p>HTML5’s new outline algorithm produces the correct result:</p>
+
+<ul>
+<li>My awesome blog</li>
+<li><ul>
+<li>Cheese sandwich</li>
+</ul></li>
+</ul>
+
+<h3 id="scoped_styles">Scoped styles</h3>
+
+<p>The fact that each piece of sectioning content has its own outline makes it the perfect match for Ajax. Yet again, HTML5 displays its provenance as a specification for web applications.</p>
+
+<p>Trying to port a piece of content from one document into another introduces some problems. The CSS rules being applied to the parent document will also apply to the inserted content. That’s currently one of the challenges in distributing widgets on the web.</p>
+
+<p>HTML5 offers a solution to this problem in the shape of the <code>scoped</code> attribute, which can be applied to a <code>style</code> element. Any styles declared within that <code>style</code> element will only be applied to the containing sectioning content:</p>
+
+<pre><code>&lt;h1&gt;My awesome blog&lt;/h1&gt;
+&lt;article&gt;
+ &lt;style <ins>scoped</ins>&gt;
+  h1 { font-size: 75% }
+ &lt;/style&gt;
+ &lt;h1&gt;Cheese sandwich&lt;/h1&gt;
+ &lt;p&gt;My cat ate a cheese sandwich.&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+
+<p>In that example, only the second <code>h1</code> element will have a font-size value of 75%. That’s the theory anyway. No browsers support the <code>scoped</code> attribute yet.</p>
+
+<p>Therein lies the rub. Before you can start using a new addition to HTML5, you need to consider the browser support for that feature. I have a few strategies to help you get started with HTML5, no matter what the browser support is like. In the next and final chapter, I’d like to share those strategies with you.</p>
+
+<a rel="next" href="../today/index.html">Using HTML5 Today</a>
+
+<nav role="navigation">
+<h1 id="table_of_contents">Table Of Contents</h1>
+<ol role="navigation">
+<li><a rel="chapter" href="../history/index.html">A Brief History of Markup</a></li>
+<li><a rel="chapter" href="../design/index.html">The Design of HTML5</a></li>
+<li><a rel="chapter" href="../media/index.html">Rich Media</a></li>
+<li><a rel="chapter" href="../forms/index.html">Web Forms 2.0</a></li>
+<li><a>Semantics</a></li>
+<li><a rel="chapter" href="../today/index.html">Using HTML5 Today</a></li>
+<li><a href="../index/index.html">Index</a></li>
+</ol>
+</nav>
+
+<aside>
+<h1>Buy the book</h1>
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="paperback">Paperback</label></h2>
+<input type="hidden" name="id" value="47764342">
+<button id="paperback" type="submit">Buy it</button>
+<label for="paperback">$18.00 + shipping</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="ebook">Ebook</label></h2>
+<input type="hidden" name="id" value="49719022">
+<button id="ebook" type="submit">Buy it</button>
+<label for="ebook">$9.00</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="bundle">Paperback &amp; ebook bundle</label></h2>
+<input type="hidden" name="id" value="49719092">
+<button id="bundle" type="submit">Buy it</button>
+<label for="bundle">$23.00 + shipping</label>
+</form>
+</aside>
+
+<footer role="contentinfo">
+<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="http://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
+</footer>
+
+</body>
+</html>

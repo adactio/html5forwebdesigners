@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" manifest="/manifest.appcache">
+<head>
+<meta charset="utf-8">
+<title>HTML5 For Web Designers, Chapter 4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" media="all" href="../css/global.css">
+</head>
+<body>
+
+<a href="../index.html"><b>Home</b></a>
+
+<h1 id="web_forms_20">Web Forms 2.0</h1>
+
+<p>When JavaScript was introduced into web browsers, it was immediately seized upon for two tasks: Image rollovers and form enhancements. When CSS came along with its <code>:hover</code> pseudo-class, web designers no longer needed to reach for JavaScript just to achieve a simple rollover effect.</p>
+
+<p>This is a recurring trend. If a pattern is popular enough, it will almost certainly evolve from requiring a scripted solution to something more declarative. That’s why CSS3 introduces even more animation capabilities that previously required JavaScript.</p>
+
+<p>When it comes to enhancing forms, CSS has its limitations. That’s where HTML5 comes in. Following the same migratory pattern from scripted to declarative solutions, the specification introduces many new form enhancements.</p>
+
+<p>These features were originally part of a WHATWG specification called Web Forms 2.0, based upon existing work at the W3C. That specification has now been rolled into HTML5.</p>
+
+<h2 id="placeholder"><code>placeholder</code></h2>
+
+<p>Here’s a common DOM Scripting pattern, often used for search forms:</p>
+
+<ol>
+<li>When a form field has no value, insert some placeholder text into it.</li>
+<li>When the user focuses on that field, remove the placeholder text.</li>
+<li>If the user leaves the field and the field still has no value, reinstate the placeholder text.</li>
+</ol>
+
+<p>The placeholder text is usually displayed in a lighter shade than an actual form field value—either through CSS, JavaScript, or a combination of both.</p>
+
+<p>In an HTML5 document, you can simply use the placeholder attribute (<a href="#fig-04-01">fig 4.01</a>):</p>
+
+<pre><code>&lt;label for="hobbies"&gt;Your hobbies&lt;/label&gt;
+&lt;input id="hobbies" name="hobbies" type="text"
+<ins>placeholder="Owl stretching"</ins>&gt;</code></pre>
+
+<figure id="fig-04-01">
+<img src="../img/fig-04-01.png" alt="">
+<figcaption><b>fig 4.01:</b> “Owl stretching” appears in the input field via the <code>placeholder</code> attribute.</figcaption>
+</figure>
+
+<p>The <code>placeholder</code> attribute works wonderfully in the browsers that support it, but, alas, that’s a fairly small subset of browsers right now. It’s up to you to decide how you want to deal with other, non-supporting browsers.</p>
+
+<p>You might decide not to do anything at all. After all, the functionality is “nice to have,” not “must have.” Alternatively, you might decide to fall back on a JavaScript solution. In that case, you need to make sure that the JavaScript solution is only applied to browsers that don’t understand the <code>placeholder</code> attribute.</p>
+
+<p>Here’s a generic little JavaScript function that tests whether an element supports a particular attribute:</p>
+
+<pre><code>function elementSupportsAttribute(element,attribute) {
+ var test = document.createElement(element);
+ if (attribute in test) {
+  return true;
+ } else {
+  return false;
+ }
+}</code></pre>
+
+<p>This works by creating a “phantom” element in memory— but not in your document—and then checking to see if the prototype for that element has a property with the same name as the attribute you are testing for. The function will return either true or false.</p>
+
+<p>Using this function, you can make sure that a JavaScript solution is only provided to browsers that don’t support <code>placeholder</code>:</p>
+
+<pre><code>if (!elementSupportsAttribute('input','placeholder')) {
+ // JavaScript fallback goes here.
+}</code></pre>
+
+<h2 id="autofocus"><code>autofocus</code></h2>
+
+<p>“Hi. I’m the auto-focus pattern. You may remember me from such websites as ‘Google: I’m Feeling Lucky’ and ‘Twitter: What’s happening?’”</p>
+
+<p>This is a simple one-step pattern, easily programmed in JavaScript:</p>
+
+<ol>
+<li>When the document loads, automatically focus one particular form field.</li>
+</ol>
+
+<p>HTML5 allows you to do this using the Boolean autofocus <code>attribute</code>:</p>
+
+<pre><code>&lt;label for="status"&gt;What's happening?&lt;/label&gt;
+&lt;input id="status" name="status" type="text" <ins>autofocus</ins>&gt;</code></pre>
+
+<p>The only problem with this pattern is that it can be annoying as hell. When I’m surfing the web, I often hit the space bar to scroll down to content “below the fold.” On sites like Twitter that use the auto-focus pattern, I find myself filling up a form field with spaces instead.</p>
+
+<p>I can see why the <code>autofocus</code> attribute has been added to HTML5—it’s paving a cowpath—but I worry about the usability of this pattern, be it scripted or native. This feature could be helpful, but it could just as easily be infuriating. Please think long and hard before implementing this pattern.</p>
+
+<p>One of the advantages in moving this pattern from scripting to markup is that, in theory, browsers can offer users a preference option to disable auto-focusing. In practice, no browser does this yet, but the pattern is still quite young. Currently, the only way to disable scripted auto-focusing is to disable JavaScript completely. It works, but it’s a heavy-handed solution, like gouging out your eyes to avoid bright lights.</p>
+
+<p>As with the <code>placeholder</code> attribute, you can test for <code>autofocus</code> support and fall back to a scripted solution:</p>
+
+<pre><code>if (!elementSupportsAttribute('input','autofocus')) {
+ document.getElementById('status').focus();
+}</code></pre>
+
+<p>The <code>autofocus</code> attribute doesn’t only work on the input element; it can be used on any kind of form field, such as <code>textarea</code> or <code>select</code>, but it can only be used once per document.</p>
+
+<h2 id="required"><code>required</code></h2>
+
+<p>One of the most common uses of JavaScript is client-side form validation. Once again, HTML5 is moving this solution from scripting to markup. Just add the Boolean attribute <code>required</code>:</p>
+
+<pre><code>&lt;label for="pass"&gt;Your password&lt;/label&gt;
+&lt;input id="pass" name="pass" type="password" <ins>required</ins>&gt;</code></pre>
+
+<p>Theoretically, this allows browsers to prevent form submissions if required fields haven’t been filled out. Even though browsers aren’t doing that yet, you can still make use of the <code>required</code> attribute in your JavaScript form validation. Instead of keeping a list of all the required fields in your script or adding <code>class="required"</code> to your markup, you can now check for the existence of the <code>required</code> attribute.</p>
+
+<h2 id="autocomplete"><code>autocomplete</code></h2>
+
+<p>Browsers don’t simply display web pages. Most browsers have additional features designed to enhance usability, security, or convenience when surfing the web’s tide. Automatically filling in forms is one such feature. Most of the time, it’s very useful, but occasionally it can be annoying or even downright dangerous. I don’t mind if my browser remembers my contact details, but I probably don’t want it to remember the log-in for my bank account, just in case my computer is stolen.</p>
+
+<p>HTML5 allows you to disable auto-completion on a per-form or per-field basis. The <code>autocomplete</code> attribute isn’t Boolean, yet it can only take two possible values: “on” or “off ”:</p>
+
+<pre><code>&lt;form action="/selfdestruct" <ins>autocomplete="off"</ins>&gt;</code></pre>
+
+<p>By default, browsers will assume an <code>autocomplete</code> value of “on,” allowing them to pre-fill the form.</p>
+
+<p>You can have your auto-completion cake and eat it. If you want to allow pre-filling for a form but disable pre-filling for just one or two fields in that form, you can do so:</p>
+
+<pre><code>&lt;input type="text" name="onetimetoken" <ins>autocomplete="off"</ins>&gt;</code></pre>
+
+<p>There isn’t any JavaScript fallback for browsers that don’t support the <code>autocomplete</code> attribute. In this case, the new HTML5 attribute is augmenting an existing browser behavior rather than replacing a scripted solution.</p>
+
+<p>The ability to disable auto-completion in browsers might seem like a strange addition to the HTML5 specification. HTML5 is supposed to be codifying prevalent patterns and this isn’t a very common use case. But given the potential security risks that auto-completion enables, it makes sense to allow website owners to override this particular browser feature.</p>
+
+<h2 id="datalist"><code>datalist</code></h2>
+
+<p>The new <code>datalist</code> element allows you to crossbreed a regular <code>input</code> element with a <code>select</code> element. Using the <code>list</code> attribute, you can associate a list of options with an input field (<a href="#fig-04-02">fig 4.02</a>):</p>
+
+<pre><code>&lt;label for="homeworld"&gt;Your home planet&lt;/label&gt;
+&lt;input type="text" name="homeworld" id="homeworld" <mark>list="planets"</mark>&gt;
+<mark>&lt;datalist id="planets"&gt;</mark>
+ &lt;option value="Mercury"&gt;
+ &lt;option value="Venus"&gt;
+ &lt;option value="Earth"&gt;
+ &lt;option value="Mars"&gt;
+ &lt;option value="Jupiter"&gt;
+ &lt;option value="Saturn"&gt;
+ &lt;option value="Uranus"&gt;
+ &lt;option value="Neptune"&gt;
+&lt;/datalist&gt;</code></pre>
+
+<p>This allows users to select an option from the list provided or to type in a value that isn’t in the list at all. This is very handy for situations that would normally require an extra form field labeled, “If ‘other’, please specify &#8230;” (<a href="#fig-04-03">fig 4.03</a>).</p>
+
+<figure id="fig-04-02">
+<img src="../img/fig-04-02.png" alt="">
+<figcaption><b>fig 4.02:</b> The new <code>datalist</code> element.</figcaption>
+</figure>
+
+<figure id="fig-04-03">
+<img src="../img/fig-04-03.png" alt="">
+<figcaption><b>fig 4.03:</b> The <code>datalist</code> element, showing that the user can type in a value that is not in the list.</figcaption>
+</figure>
+
+<p>The <code>datalist</code> element is a nice, unobtrusive enhancement to a form field. If a browser doesn’t support <code>datalist</code>, then the form field behaves as a normal input.</p>
+
+<h2 id="input_types">Input Types</h2>
+
+<p>The <code>type</code> attribute of the <code>input</code> element is being greatly expanded in HTML5. There are so many cowpaths to pave, it’s like doing construction work in the aftermath of a stampede.</p>
+
+<h3 id="searching">Searching</h3>
+
+<p>An <code>input</code> element with a <code>type</code> value of “search” will behave much the same way as an input element with a <code>type</code> value of “text”:</p>
+
+<pre><code>&lt;label for="query"&gt;Search&lt;/label&gt;
+&lt;input id="query" name="query" <mark>type="search"</mark>&gt;</code></pre>
+
+<p>The only difference between “text” and “search” is that a browser might display a search input differently to be more consistent with the styling of search fields in the operating system. That’s exactly what Safari does (<a href="#fig-04-04">fig 4.04</a>).</p>
+
+<figure id="fig-04-04">
+<div>
+<img src="../img/fig-04-04a.png" alt="">
+<img src="../img/fig-04-04b.png" alt="">
+</div>
+<figcaption><b>fig 4.04:</b> Safari styles search inputs to be consistent with Mac OS</figcaption>
+</figure>
+
+<h3 id="contact_details">Contact details</h3>
+
+<p>There are three new <code>type</code> values for specific kinds of contact details: email addresses, websites, and telephone numbers:</p>
+
+<pre><code>&lt;label for="email"&gt;Email address&lt;/label&gt;
+&lt;input id="email" name="email" <mark>type="email"</mark>&gt;
+&lt;label for="website"&gt;Website&lt;/label&gt;
+&lt;input id="website" name="website" <mark>type="url"</mark>&gt;
+&lt;label for="phone"&gt;Telephone&lt;/label&gt;
+&lt;input id="phone" name="phone" <mark>type="tel"</mark>&gt;</code></pre>
+
+<p>Once again, these fields will behave in the same way as text inputs, but browsers now have a bit more information about the kind of data expected in the field.</p>
+
+<p>Safari claims to support these new input types but a quick look at a form in the desktop browser reveals no differences to simply using <code>type="text"</code>. However, if you start interacting with the same form in Mobile Safari, the differences become apparent. The browser displays a different on-screen keyboard depending on the value of the type attribute (<a href="#fig-04-05">fig 4.05</a>).</p>
+
+<figure id="fig-04-05">
+<div>
+<img src="../img/fig-04-05a.png" alt="">
+<img src="../img/fig-04-05b.png" alt="">
+<img src="../img/fig-04-05c.png" alt="">
+</div>
+<figcaption><b>fig 4.05:</b> Mobile Safari shows a different on-screen keyboard depending on the value of the <code>type</code> attribute.</figcaption>
+</figure>
+
+<p>Subtly played, Webkit, subtly played.</p>
+
+<h3 id="sliders">Sliders</h3>
+
+<p>Many JavaScript libraries offer pre-built widgets that you can use in your web applications. They work fine—as long as JavaScript is enabled. It would be nice if our users didn’t have to download a JavaScript file every time we want to add an interesting control to our pages.</p>
+
+<p>A classic example is a slider control. Until now, we’ve had to use JavaScript to emulate this kind of interactive element. In HTML5, thanks to <code>type="range"</code>, browsers can now offer a native control:</p>
+
+<pre><code>&lt;label for="amount"&gt;How much?&lt;/label&gt;
+&lt;input id="amount" name="amount" <mark>type="range"</mark>&gt;</code></pre>
+
+<p>Both Safari and Opera currently support this input type, offering similar-looking controls (<a href="#fig-04-06">fig 4.06</a>).</p>
+
+<figure id="fig-04-06">
+<img src="../img/fig-04-06.png" alt="">
+<figcaption><b>fig 4.06:</b> The range input type in both Safari and Opera.</figcaption>
+</figure>
+
+<p>By default, the input will accept a range from zero to one hundred. You can set your own minimum and maximum values using the <code>min</code> and <code>max</code> attributes:</p>
+
+<pre><code>&lt;label for="rating"&gt;Your rating&lt;/label&gt;
+&lt;input id="rating" name="rating" type="range"
+<ins>min="1" max="5"</ins>&gt;</code></pre>
+
+<p>That’s all well and good for Safari and Opera users; other browsers will simply display a regular text input. That’s probably fine, but you might want to use a JavaScript fallback for browsers that don’t support <code>type="range"</code>.</p>
+
+<h3 id="testing">Testing</h3>
+
+<p>Testing for native support of input types requires a similar trick to the test for attribute support. Once again, you will need to create a “phantom” <code>input</code> element in memory. Then, set the <code>type</code> attribute to the value you want to test. When you query the value of the <code>type</code> property, if you get back a value of “text,” then you’ll know that the browser doesn’t support the value that you set.</p>
+
+<p>Here’s some sample code, although I’m sure you can write something far more elegant than this:</p>
+
+<pre><code>function inputSupportsType(test) {
+ var input = document.createElement('input');
+ input.setAttribute('type',test); 
+ if (input.type == 'text') {
+  return false;
+ } else {
+  return true;
+ }
+}</code></pre>
+
+<p>You can then use this function to ensure that a JavaScript widget is only provided to browsers that don’t natively support a particular input type:</p>
+
+<pre><code>if (!inputSupportsType('range')) {
+ // JavaScript fallback goes here.
+}</code></pre>
+
+<p>A native input control will certainly load faster than a scripted solution that needs to wait until the DOM has finished loading. A native control will also usually be more accessible than a scripted control, although—bizarrely—Safari’s <code>range</code> control currently isn’t keyboard-accessible!</p>
+
+<h3 id="spinners">Spinners</h3>
+
+<p>A browser-native <code>range</code> control doesn’t expose the underlying value to the user. Instead, the number is translated into the graphical representation of a slider widget. That’s fine for certain kinds of data. Other kinds of data work best when the user can see and choose the numerical value. That’s where <code>type="number"</code> comes in:</p>
+
+<pre><code>&lt;label for="amount"&gt;How much?&lt;/label&gt;
+&lt;input id="amount" name="amount" <ins>type="number"</ins>
+min="5" max="20"&gt;</code></pre>
+
+<p>As well as allowing the user to input a value directly into a text field, browsers can also display “spinner” controls to allow users to increase or decrease the value (<a href="#fig-04-07">fig 4.07</a>).</p>
+
+<figure id="fig-04-07">
+<img src="../img/fig-04-07.png" alt="">
+<figcaption><b>fig 4.07:</b> Spinner controls where <code>type="number"</code> is used.</figcaption>
+</figure>
+
+<p>The <code>number</code> input type is a hybrid of <code>text</code> and <code>range</code>. It allows users to enter values directly, like a <code>text</code> field, but it also allows browsers to ensure that only numerical values are entered, like a <code>range</code> control.</p>
+
+<h3 id="dates_and_times">Dates and times</h3>
+
+<p>One of the most popular JavaScript widgets is the calendar picker. You know the drill: you’re booking a flight or creating an event and you need to choose a date. Up pops a little calendar for you to choose a date from.</p>
+
+<p>These calendar widgets all do the same thing, but you’ll find that they’re implemented slightly differently on each site. A native calendar widget would smooth away the inconsistencies and reduce cognitive load during the date-picking process.</p>
+
+<p>HTML5 introduces a raft of input types specifically for dates and times:</p>
+
+<ul>
+<li><code>date</code> is for a year, month, and day.</li>
+<li><code>datetime</code> is for a year, month, and day in combination with hours, minutes, and seconds and time zone information.</li>
+<li><code>datetime-local</code> is the same but without the time zone information.</li>
+<li><code>time</code> is for hours, minutes, and seconds.</li>
+<li><code>month</code> is for a year and a month but without a day.</li>
+</ul>
+
+<p>All of these input types will record timestamps with some subset of the standardized format YYYY-MM-DDThh:mm:ss.Z (Y is year, M is month, D is day, h is hour, m is minute, s is second, and Z is timezone). Take, for example, the date and time at which World War One ended, 11:11am on November 11th, 1918:</p>
+
+<ul>
+<li><code>date</code>: 1918-11-11</li>
+<li><code>datetime</code>: 1918-11-11T11:11:00+01</li>
+<li><code>datetime-local</code>: 1918-11-11T11:11:00</li>
+<li><code>time</code>: 11:11:00</li>
+<li><code>month</code>: 1918-11</li>
+</ul>
+
+<p>There is no <code>year</code> input type, although there is a <code>week</code> input type that takes a number between 1 and 53 in combination with a year.</p>
+
+<p>Using the date and time input types is straightforward:</p>
+
+<pre><code>&lt;label for="dtstart"&gt;Start date&lt;/label&gt;
+&lt;input id="dtstart" name="dtstart" <mark>type="date"</mark>&gt;</code></pre>
+
+<p>Opera implements these input types using its patented ugly-stick technology (<a href="#fig-04-08">fig 4.08</a>).</p>
+
+<figure id="fig-04-08">
+<img src="../img/fig-04-08.png" alt="">
+<figcaption><b>fig 4.08:</b> Opera’s native calendar display, with the ugly-stick.</figcaption>
+</figure>
+
+<p>As always, browsers that don’t support these input types will fall back to displaying a regular text input. In that situation, you could ask your users to enter dates and times in the ISO format or you could use your JavaScript library of choice to generate a widget. Make sure to check for native support first:</p>
+
+<pre><code>if (!inputSupportsType('date')) {
+ // Generate a calendar widget here.
+}</code></pre>
+
+<p>Even the most elegantly written JavaScript calendar widget is going to require some complex code to generate the table of days and handle the date-picking events. Browser-native calendar widgets should be considerably smoother and faster, as well as being consistent from site to site.</p>
+
+<h3 id="color_pickers">Color pickers</h3>
+
+<p>Perhaps the most ambitious widget replacement in HTML5 is the <code>color</code> input type. This accepts values in the familiar Hexadecimal format: <code>#000000</code> for black, <code>#FFFFFF</code> for white.</p>
+
+<pre><code>&lt;label for="bgcolor"&gt;Background color&lt;/label&gt;
+&lt;input id="bgcolor" name="bgcolor" <mark>type="color"</mark>&gt;</code></pre>
+
+<p>The plan is for browsers to implement native color pickers like the ones in just about every other application on your computer. So far, no browsers have done this but when they do, it will be, like, totally awesome.</p>
+
+<p>In the meantime, you can use a JavaScript solution, but be sure to test for native support, so your code is future-proofed for tomorrow’s browsers.</p>
+
+<h3 id="rolling_your_own">Rolling your own</h3>
+
+<p>All of these new input types serve two purposes: they allow browsers to display native controls suited to the expected input data, and to validate the value entered. These additions to HTML5 cover the majority of scenarios, but you still might find that you need to validate a value that doesn’t fall under any of the new categories.</p>
+
+<p>The good news is that you can use the <code>pattern</code> attribute to specify exactly what kind of value is expected. The bad news is that you have to use a regular expression:</p>
+
+<pre><code>&lt;label for="zip"&gt;US Zip code&lt;/label&gt;
+&lt;input id="zip" name="zip" <ins>pattern="[\d]{5}(-[\d]{4})"</ins>&gt;</code></pre>
+
+<p>Most of the time, you’ll never need to use the <code>pattern</code> attribute. On the occasions that you do, you have my sympathy.</p>
+
+<h2 id="looking_to_the_future">Looking To The Future</h2>
+
+<p>Forms have been given a huge boost in HTML5. Much of the burden that has traditionally been carried by JavaScript is shifting onto the shoulders of markup. Right now, we’re in a transitional phase where some of that functionality is supported by some browsers. We can’t ditch our JavaScript just yet, but we’re not too far away from a brighter future.</p>
+
+<p>Client-side validation is going to get a whole lot easier— although you shouldn’t ever rely on it; always validate form values on the server as well. Generating form controls will no longer require that your users download a JavaScript library; it will all be handled natively in the browser.</p>
+
+<p>I’m sure you can see the benefits to having native browser controls for calendars and sliders, but I bet you’re wondering: “Can I style them?”</p>
+
+<p>It’s a good question. For the time being, the answer is “no.” Take it up with the CSS Working Group.</p>
+
+<p>This might be a deal breaker for you. If you feel that a particular browser’s implementation of a form element is less than finessed, you might prefer to use a JavaScript widget that gives you more control.</p>
+
+<p>I’d like you to think about a different question: “<em>Should</em> I style them?”</p>
+
+<p>Remember, the web isn’t about control. If a visitor to your site is familiar with using a browser’s native form doodad, you won’t be doing them any favors if you override the browser functionality with your own widget, even if you think your widget looks better.</p>
+
+<p>Personally, I’d like to see browser vendors competing on the prettiness and usability of their HTML5 form controls. That’s a browser war I could support.</p>
+
+<p>Let’s put forms to one side now, and take a look at the juicy new semantics in HTML5.</p>
+
+<a rel="next" href="../semantics/index.html">Semantics</a>
+
+<nav role="navigation">
+<h1 id="table_of_contents">Table Of Contents</h1>
+<ol role="navigation">
+<li><a rel="chapter" href="../history/index.html">A Brief History of Markup</a></li>
+<li><a rel="chapter" href="../design/index.html">The Design of HTML5</a></li>
+<li><a rel="chapter" href="../media/index.html">Rich Media</a></li>
+<li>Web Forms 2.0</li>
+<li><a rel="chapter" href="../semantics/index.html">Semantics</a></li>
+<li><a rel="chapter" href="../today/index.html">Using HTML5 Today</a></li>
+<li><a href="../index/index.html">Index</a></li>
+</ol>
+</nav>
+
+<aside>
+<h1>Buy the book</h1>
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="paperback">Paperback</label></h2>
+<input type="hidden" name="id" value="47764342">
+<button id="paperback" type="submit">Buy it</button>
+<label for="paperback">$18.00 + shipping</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="ebook">Ebook</label></h2>
+<input type="hidden" name="id" value="49719022">
+<button id="ebook" type="submit">Buy it</button>
+<label for="ebook">$9.00</label>
+</form>
+
+<form action="http://www.abookapart.com/cart/add" method="post">
+<h2><label for="bundle">Paperback &amp; ebook bundle</label></h2>
+<input type="hidden" name="id" value="49719092">
+<button id="bundle" type="submit">Buy it</button>
+<label for="bundle">$23.00 + shipping</label>
+</form>
+</aside>
+
+<footer role="contentinfo">
+<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="http://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
+</footer>
+
+</body>
+</html>
