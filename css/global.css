@@ -1,6 +1,6 @@
 @font-face {
 	font-family: 'League Gothic';
-	src: url('font/League Gothic.otf');
+	src: url('font/leaguegothic-regular-webfont.woff');
 }
 * {
 	font-weight: inherit;

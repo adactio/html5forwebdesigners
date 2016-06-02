@@ -1,0 +1,31 @@
+{
+    "lang": "en",
+    "short_name": "HTML5",
+    "name": "HTML5 For Web Designers",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "170x170",
+            "type": "image/png"
+        },
+        {
+            "src": "/apple-touch-icon-57x57-precomposed.png",
+            "sizes": "57x57",
+            "type": "image/png"
+        },
+        {
+            "src": "/apple-touch-icon-72x72-precomposed.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "/apple-touch-icon-114x114-precomposed.png",
+            "sizes": "114x114",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#f24114",
+    "theme_color": "#f24114"
+}

@@ -4,19 +4,20 @@
 <meta charset="utf-8">
 <title>HTML5 For Web Designers by Jeremy Keith</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" media="all" href="css/global.css">
 </head>
 <body>
 
 <h1>HTML5 For Web Designers</h1>
 <footer class="vcard">
-<a href="http://abookapart.com/" class="fn org url"><img src="img/abookapart.png" alt="A Book Apart"></a>
+<a href="https://abookapart.com/" class="fn org url"><img src="img/abookapart.png" alt="A Book Apart"></a>
 </footer>
 
 <nav>
 <h1>Buy the book</h1>
 
-<a href="http://www.abookapart.com/products/html5-for-web-designers"><img src="img/cover.png" alt="HTML5 For Web Designers"></a>
+<a href="https://abookapart.com/products/html5-for-web-designers"><img src="img/cover.png" alt="HTML5 For Web Designers"></a>
 
 <h3>Paperback</h3>
 <p>A gorgeous 85 page book designed by <span class="vcard"><a href="http://jasonsantamaria.com/" rel="friend met colleague" class="url"><span class="given-name">Jason</span> <span class="family-name">Santa Maria</span></a></span>.</p>
@@ -60,8 +61,14 @@
 </nav>
 
 <footer role="contentinfo">
-<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="http://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
+<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="https://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
 </footer>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/serviceworker.js');
+}
+</script>
 
 </body>
 </html>

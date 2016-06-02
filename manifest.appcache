@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# rev 3
+# rev 4
 CACHE:
 /index.html
 /history/index.html
@@ -10,7 +10,7 @@ CACHE:
 /today/index.html
 /index/index.html
 /css/global.css
-/css/font/League%20Gothic.otf
+/css/font/leaguegothic-regular-webfont.woff
 /img/abookapart.png
 /img/cover.png
 /img/fig-03-01.png

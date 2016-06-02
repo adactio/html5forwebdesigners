@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>HTML5 For Web Designers, Chapter 2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" media="all" href="../css/global.css">
 </head>
 <body>
@@ -237,21 +238,21 @@
 
 <aside>
 <h1>Buy the book</h1>
-<form action="http://www.abookapart.com/cart/add" method="post">
+<form action="https://abookapart.com/cart/add" method="post">
 <h2><label for="paperback">Paperback</label></h2>
 <input type="hidden" name="id" value="47764342">
 <button id="paperback" type="submit">Buy it</button>
 <label for="paperback">$18.00 + shipping</label>
 </form>
 
-<form action="http://www.abookapart.com/cart/add" method="post">
+<form action="https://abookapart.com/cart/add" method="post">
 <h2><label for="ebook">Ebook</label></h2>
 <input type="hidden" name="id" value="49719022">
 <button id="ebook" type="submit">Buy it</button>
 <label for="ebook">$9.00</label>
 </form>
 
-<form action="http://www.abookapart.com/cart/add" method="post">
+<form action="https://abookapart.com/cart/add" method="post">
 <h2><label for="bundle">Paperback &amp; ebook bundle</label></h2>
 <input type="hidden" name="id" value="49719092">
 <button id="bundle" type="submit">Buy it</button>
@@ -260,8 +261,14 @@
 </aside>
 
 <footer role="contentinfo">
-<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="http://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
+<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="https://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
 </footer>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/serviceworker.js');
+}
+</script>
 
 </body>
 </html>

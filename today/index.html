@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>HTML5 For Web Designers, Chapter 6</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" media="all" href="../css/global.css">
 </head>
 <body>
@@ -141,7 +142,7 @@ footer[role="contentinfo"] { } </code></pre>
 <p>Bruce is just one of the contributors to HTML5 Doctor, an excellent community resource packed with great articles:
 <a href="http://html5doctor.com/">http://html5doctor.com/</a></p>
 
-<p>If you fancy getting into the more complex side of HTML5, Remy Sharp is pushing the boundaries: 
+<p>If you fancy getting into the more complex side of HTML5, Remy Sharp is pushing the boundaries:
 <a href="http://html5demos.com/">http://html5demos.com/</a></p>
 
 <p>Mark Pilgrim has written an exhaustive book called Dive Into HTML5. Buy it from O’Reilly or read it online:
@@ -164,7 +165,7 @@ footer[role="contentinfo"] { } </code></pre>
 <p>The WHATWG mailing list is the place to go if you actually want to discuss the HTML5 specification:
 <a href="http://www.whatwg.org/mailing-list#specs">http://www.whatwg.org/mailing-list#specs</a></p>
 
-<p>There’s also an IRC channel. Sometimes you want to go where everybody knows your handle: 
+<p>There’s also an IRC channel. Sometimes you want to go where everybody knows your handle:
 <a href="irc://irc.freenode.org/whatwg">irc://irc.freenode.org/whatwg</a></p>
 
 <p>Don’t be shy. The IRC channel is a great place to ask questions and get answers from Ian Hickson, Anne van Kesteren, Lachlan Hunt, and other WHATWG members.</p>
@@ -190,21 +191,21 @@ footer[role="contentinfo"] { } </code></pre>
 
 <aside>
 <h1>Buy the book</h1>
-<form action="http://www.abookapart.com/cart/add" method="post">
+<form action="https://abookapart.com/cart/add" method="post">
 <h2><label for="paperback">Paperback</label></h2>
 <input type="hidden" name="id" value="47764342">
 <button id="paperback" type="submit">Buy it</button>
 <label for="paperback">$18.00 + shipping</label>
 </form>
 
-<form action="http://www.abookapart.com/cart/add" method="post">
+<form action="https://abookapart.com/cart/add" method="post">
 <h2><label for="ebook">Ebook</label></h2>
 <input type="hidden" name="id" value="49719022">
 <button id="ebook" type="submit">Buy it</button>
 <label for="ebook">$9.00</label>
 </form>
 
-<form action="http://www.abookapart.com/cart/add" method="post">
+<form action="https://abookapart.com/cart/add" method="post">
 <h2><label for="bundle">Paperback &amp; ebook bundle</label></h2>
 <input type="hidden" name="id" value="49719092">
 <button id="bundle" type="submit">Buy it</button>
@@ -213,8 +214,14 @@ footer[role="contentinfo"] { } </code></pre>
 </aside>
 
 <footer role="contentinfo">
-<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="http://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
+<p>Copyright &copy; 2010 by Jeremy Keith. ISBN 978-0-9844425-0-8. Published by <span class="vcard"><a href="https://abookapart.com/" class="fn url org">A Book Apart</a></span></p>
 </footer>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/serviceworker.js');
+}
+</script>
 
 </body>
 </html>
