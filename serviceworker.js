@@ -1,6 +1,6 @@
 'use strict';
 
-const version = 'v0.01::';
+const version = 'v0.02::';
 const staticCacheName = version + 'static';
 
 function updateStaticCache() {
@@ -36,15 +36,15 @@ function updateStaticCache() {
             ]);
             // These items must be cached for the Service Worker to complete installation
             return cache.addAll([
-                '/index.html',
-                '/offline/index.html',
-                '/history/index.html',
-                '/design/index.html',
-                '/media/index.html',
-                '/forms/index.html',
-                '/semantics/index.html',
-                '/today/index.html',
-                '/index/index.html',
+                '/',
+                '/offline/',
+                '/history/',
+                '/design/',
+                '/media/',
+                '/forms/',
+                '/semantics/',
+                '/today/',
+                '/index/',
                 '/css/global.css'
             ]);
         });
@@ -93,7 +93,7 @@ self.addEventListener('fetch', event => {
                         }
                         // If the request is for a page, show an offline message
                         if (request.headers.get('Accept').indexOf('text/html') !== -1) {
-                            return caches.match('/offline/index.html');
+                            return caches.match('/offline/');
                         }
                     });
             })

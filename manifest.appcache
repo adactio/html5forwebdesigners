@@ -1,14 +1,14 @@
 CACHE MANIFEST
-# rev 4
+# rev 5
 CACHE:
-/index.html
-/history/index.html
-/design/index.html
-/media/index.html
-/forms/index.html
-/semantics/index.html
-/today/index.html
-/index/index.html
+/
+/history/
+/design/
+/media/
+/forms/
+/semantics/
+/today/
+/index/
 /css/global.css
 /css/font/leaguegothic-regular-webfont.woff
 /img/abookapart.png
